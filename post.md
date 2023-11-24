@@ -541,8 +541,11 @@ I've previously done tests _similar to_ this, when looking at embedded programs 
 	- In my tests, I'd expect statically-linked C/C++/Rust to outperform Golang.
 
 Let's see how wrong I am!
+
 ## Batch 1: Baseline programs
+
 The first batch of tests give a program that prints "Hello, world!\n" and exits with code 0. We aren't doing anything fancy, special, optimized; we're just printing the message as simply as we can.
+
 ### Scripts: Shell and Python
 
 Shell is the first thing I'm likely to reach for, when writing a tool for myself. Highly portable, no installation required; if what I'm doing is mostly orchestrating other processes, it's okay.
@@ -601,10 +604,8 @@ int main() {
 Rust specifically meant as a C/C++ successor. To that end, links `libc` (in most configurations; more [below]), though it handles things like formatting differently.
 
 ```rust
-use std::fmt::println;
-
 fn main() {
-  println!("Hello, world!").unwrap();
+  println!("Hello, world!");
 }
 ```
 
@@ -630,6 +631,7 @@ func main() {
 ```
 
 ## Batch 1: Results
+
 TODO
 
 ### By the numbers
@@ -637,17 +639,21 @@ TODO
 ### Trace analysis
 
 ## Batch 2: Optimized building
+
 Some things we can do to change the launch behavior of the program, without really changing its text.
+
 ### Reference: Assembly
 Wait, what?
 
 No, I'm not going to write any tools in straight-up assembly. But it's a useful floor: what's the _best_ a language could _possibly_ do, if we took away safety guarantees, multithreading, readability... all those nice things. If we're looking to find the Pareto frontier, this is *probably* far off on one edge.
 
 TODO: Find an "x86 hello-world assembly" and include it here.
+
 ### Compiler-optimized C, C++
 Built with `-O2`, stripped of debug information.
 
 Not changing the program text, just how we invoke it.
+
 ### Compiler-optimized Rust
 `--release` flag
 
@@ -687,14 +693,31 @@ The one we're going to try is the Go-like approach:[^gokrazy] build the standard
 [^gokrazy]: As noted above, Golang doesn't use `libc` by default, though usually it will be on a system that includes `libc`. The exception is [`gokrazy`](https://gokrazy.org/), a project where the entire userland is built without `libc`; the "only" remaining C code is the kernel itself.
 
 The main benefit we'd be getting out of Mustang for this test is static linking, without crossing ABI boundaries. Let's see what it does!
+
 ### Bytecode caching: Python
-TODO: Our original Python build had a "clean command line" of "clear out `pyc` files".
 
-CPython compiles modules to bytecode, then runs the bytecode. If you re-run a program without changing the source, CPython can skip the "compile to bytecode" step and re-use the cached file.
+The background section of [PEP 3147](https://peps.python.org/pep-3147/) says:
 
-This is a little bit unfair: producing the bytecode is more similar to the "compilation" step. (If we had Java in the mix, this would be even more obvious: Java has an explicit compile-to-bytecode command, `javac`.) So our "page cache" vs. "non page cache" runs show the effects of both "page cache" and "recompilation."
+> CPython compiles its source code into “byte code”, and for performance reasons, it caches this byte code on the file system whenever the source file has changes. This makes loading of Python modules much faster because the compilation phase can be bypassed.
 
-See this more clearly if we use a "compile" step to run it once; then our "clean" run has the compilation cache, but not the page cache. This is more realistic for a command-line program, and more comparable to the other test cases - we aren't going to change the program between every run, so the `pyc` cache should still be OK to use.
+The PEP proposes caching these files in a `__pycache__` directory; in the Mercurial trace, we see the Python binary loading these files from cache (great).
+
+TODO: link to section
+
+Running our initial `test.py` file doesn't generate a `__pycache__` directory,
+though. Apparently this caching only happens for _imported_ modules- the module
+used as `__main__` doesn't get this behavior.
+
+This mostly highlights how unrealistic our example is: a real program like Mercurial will have its loading time dominated by the imported modules rather
+than the main module. Since we aren't importing any modules, we can't improve on this count further.
+
+For a more complicated program, is something to keep in mind as an optimization:
+if the entry point can as-soon-a-possible jump to an imported module, the
+bytecode compiler will have less work to do. Something to try if-and-when we
+have a bigger program.
+
+TODO: link to future work
+
 ## Batch 2: Results
 
 ### By the numbers
