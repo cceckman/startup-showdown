@@ -1,4 +1,6 @@
-redo-always \
+
+redo-always
+redo \
   runner/clean \
   sut/clean \
   tests/clean \

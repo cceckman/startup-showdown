@@ -1,3 +1,6 @@
+
+redo-always
+
 find . \
-  -not ( -name .gitignore -or -name '*.do' ) \
+  -not \( -name .gitignore -or -name '*.do' \) \
   -delete
