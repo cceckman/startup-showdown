@@ -1,0 +1,377 @@
+         ? (         ): tailscale/369041  ... [continued]: execve())                                           = 0
+     0.041 ( 0.002 ms): tailscale/369041 arch_prctl(option: SET_FS, arg2: 0xf00210)                            = 0
+     0.094 ( 0.004 ms): tailscale/369041 sched_getaffinity(len: 8192, user_mask_ptr: 0x7ffd2b2b0a00)           = 8
+     0.100 ( 0.019 ms): tailscale/369041 openat(dfd: CWD, filename: 0xe99180)                                  = 4
+     0.122 ( 0.007 ms): tailscale/369041 read(fd: 4, buf: 0x7ffd2b2b29ec, count: 20)                           = 8
+     0.131 ( 0.002 ms): tailscale/369041 close(fd: 4)                                                          = 0
+     0.212 ( 0.009 ms): tailscale/369041 mmap(len: 262144, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)         = 0x7f3bbd0ff000
+     0.231 ( 0.004 ms): tailscale/369041 mmap(len: 131072, flags: PRIVATE|ANONYMOUS)                           = 0x7f3bbd0df000
+     0.242 ( 0.005 ms): tailscale/369041 mmap(len: 1048576, flags: PRIVATE|ANONYMOUS)                          = 0x7f3bbcfdf000
+     0.249 ( 0.003 ms): tailscale/369041 mmap(len: 8388608, flags: PRIVATE|ANONYMOUS)                          = 0x7f3bbc7df000
+     0.254 ( 0.003 ms): tailscale/369041 mmap(len: 67108864, flags: PRIVATE|ANONYMOUS)                         = 0x7f3bb87df000
+     0.258 ( 0.003 ms): tailscale/369041 mmap(len: 536870912, flags: PRIVATE|ANONYMOUS)                        = 0x7f3b987df000
+     0.263 ( 0.003 ms): tailscale/369041 mmap(len: 536870912, flags: PRIVATE|ANONYMOUS)                        = 0x7f3b787df000
+     0.297 ( 0.006 ms): tailscale/369041 mmap(addr: 0xc000000000, len: 67108864, flags: PRIVATE|ANONYMOUS)     = 0xc000000000
+     0.305 ( 0.006 ms): tailscale/369041 mmap(len: 33554432, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)       = 0x7f3b767df000
+     0.313 ( 0.004 ms): tailscale/369041 madvise(start: 0x7f3b767df000, len_in: 33554432, behavior: MADV_NOHUGEPAGE) = 0
+     0.325 ( 0.005 ms): tailscale/369041 mmap(len: 1133584, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)        = 0x7f3b766ca000
+     0.341 ( 0.015 ms): tailscale/369041 mmap(addr: 0xc000000000, len: 4194304, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0xc000000000
+     0.370 ( 0.011 ms): tailscale/369041 mmap(addr: 0x7f3bbd0df000, len: 131072, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0x7f3bbd0df000
+     0.384 ( 0.007 ms): tailscale/369041 mmap(addr: 0x7f3bbd05f000, len: 4096, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0x7f3bbd05f000
+     0.393 ( 0.007 ms): tailscale/369041 mmap(addr: 0x7f3bbcbe5000, len: 4096, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0x7f3bbcbe5000
+     0.402 ( 0.007 ms): tailscale/369041 mmap(addr: 0x7f3bba80f000, len: 4096, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0x7f3bba80f000
+     0.412 ( 0.008 ms): tailscale/369041 mmap(addr: 0x7f3ba895f000, len: 4096, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0x7f3ba895f000
+     0.423 ( 0.012 ms): tailscale/369041 mmap(addr: 0x7f3b8895f000, len: 4096, prot: READ|WRITE, flags: PRIVATE|FIXED|ANONYMOUS) = 0x7f3b8895f000
+     0.439 ( 0.004 ms): tailscale/369041 mmap(len: 1048576, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)        = 0x7f3b765ca000
+     0.445 ( 0.005 ms): tailscale/369041 madvise(start: 0x7f3b765ca000, len_in: 1048576, behavior: MADV_NOHUGEPAGE) = 0
+     0.512 ( 0.007 ms): tailscale/369041 mmap(len: 65536, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)          = 0x7f3b765ba000
+     0.535 ( 0.005 ms): tailscale/369041 mmap(len: 65536, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)          = 0x7f3b765aa000
+     2.853 ( 0.009 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, oset: 0xf00200, sigsetsize: 8)           = 0
+     2.934 ( 0.003 ms): tailscale/369041 sigaltstack(uoss: 0x7ffd2b2b2970)                                     = 0
+     2.940 ( 0.002 ms): tailscale/369041 sigaltstack(uss: 0x7ffd2b2b2930)                                      = 0
+     2.944 ( 0.002 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0x7ffd2b2b2980, sigsetsize: 8)     = 0
+     2.948 ( 0.002 ms): tailscale/369041 gettid()                                                              = 369041 (tailscale)
+     2.952 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: HUP, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     2.956 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: HUP, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     2.960 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: INT, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     2.963 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: INT, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     2.967 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: QUIT, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     2.971 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: QUIT, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     2.974 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: ILL, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     2.978 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: ILL, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     2.981 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: TRAP, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     2.985 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: TRAP, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     2.988 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: ABRT, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     2.992 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: ABRT, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     2.995 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: BUS, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     2.999 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: BUS, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     3.002 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: FPE, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     3.006 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: FPE, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     3.009 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: USR1, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.013 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: USR1, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.017 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: SEGV, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.020 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: SEGV, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.024 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: USR2, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.027 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: USR2, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.031 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: PIPE, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.034 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: PIPE, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.038 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: ALRM, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.041 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: ALRM, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.045 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: TERM, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.048 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: TERM, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.052 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: STKFLT, oact: 0x7ffd2b2b2970, sigsetsize: 8)        = 0
+     3.056 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: STKFLT, act: 0x7ffd2b2b2918, sigsetsize: 8)         = 0
+     3.059 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: CHLD, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.063 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: CHLD, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.066 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: URG, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     3.070 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: URG, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     3.073 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: XCPU, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.077 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: XCPU, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.080 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: XFSZ, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.084 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: XFSZ, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.087 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: VTALRM, oact: 0x7ffd2b2b2970, sigsetsize: 8)        = 0
+     3.091 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: VTALRM, act: 0x7ffd2b2b2918, sigsetsize: 8)         = 0
+     3.094 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: PROF, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.098 ( 0.001 ms): tailscale/369041 rt_sigaction(sig: PROF, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.101 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: WINCH, oact: 0x7ffd2b2b2970, sigsetsize: 8)         = 0
+     3.119 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: WINCH, act: 0x7ffd2b2b2918, sigsetsize: 8)          = 0
+     3.124 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: IO, oact: 0x7ffd2b2b2970, sigsetsize: 8)            = 0
+     3.129 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: IO, act: 0x7ffd2b2b2918, sigsetsize: 8)             = 0
+     3.134 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: PWR, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     3.139 ( 0.003 ms): tailscale/369041 rt_sigaction(sig: PWR, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     3.144 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: SYS, oact: 0x7ffd2b2b2970, sigsetsize: 8)           = 0
+     3.149 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: SYS, act: 0x7ffd2b2b2918, sigsetsize: 8)            = 0
+     3.154 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x20, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.158 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x21, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.163 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x21, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.168 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x22, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.173 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x23, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.178 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x23, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.182 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x24, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.187 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x24, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.193 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x25, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.197 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x25, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.201 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x26, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.206 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x26, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.211 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x27, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.216 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x27, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.221 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x28, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.227 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x28, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.232 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x29, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.237 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x29, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.243 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2a, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.248 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2a, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.253 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2b, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.258 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2b, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.264 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2c, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.269 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2c, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.274 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2d, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.279 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2d, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.284 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2e, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.289 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2e, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.293 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2f, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.298 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x2f, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.304 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x30, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.309 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x30, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.313 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x31, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.318 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x31, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.324 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x32, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.329 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x32, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.335 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x33, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.340 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x33, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.346 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x34, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.351 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x34, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.356 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x35, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.362 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x35, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.367 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x36, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.372 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x36, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.378 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x37, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.383 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x37, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.388 ( 0.003 ms): tailscale/369041 rt_sigaction(sig: 0x38, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.394 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x38, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.399 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x39, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.404 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x39, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.409 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3a, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.414 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3a, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.420 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3b, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.424 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3b, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.429 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3c, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.434 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3c, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.441 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3d, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.446 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3d, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.451 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3e, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.457 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3e, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.462 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3f, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.467 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x3f, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.472 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x40, oact: 0x7ffd2b2b2970, sigsetsize: 8)          = 0
+     3.478 ( 0.002 ms): tailscale/369041 rt_sigaction(sig: 0x40, act: 0x7ffd2b2b2918, sigsetsize: 8)           = 0
+     3.493 ( 0.003 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0xe93570, oset: 0x7ffd2b2b2908, sigsetsize: 8) = 0
+     3.499 ( 0.348 ms): tailscale/369041 clone(clone_flags: VM|FS|FILES|SIGHAND|THREAD|SYSVSEM|SETTLS, newsp: 0xc00006c000, tls: 0xc00005a090) = 369042 (tailscale)
+     3.856 ( 0.002 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0x7ffd2b2b2908, sigsetsize: 8)     = 0
+     3.902 ( 0.003 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0xe93570, oset: 0x7ffd2b2b2888, sigsetsize: 8) = 0
+         ? (         ): tailscale/369042  ... [continued]: clone())                                            = 
+     3.908 (         ): tailscale/369041 clone(clone_flags: VM|FS|FILES|SIGHAND|THREAD|SYSVSEM|SETTLS, newsp: 0xc000068000, tls: 0xc00005a490) ...
+     3.884 ( 0.002 ms): tailscale/369042 gettid()                                                              = 369042 (tailscale)
+     3.889 ( 0.002 ms): tailscale/369042 sigaltstack(uoss: 0xc00006bf50)                                       = 0
+     3.893 ( 0.002 ms): tailscale/369042 sigaltstack(uss: 0xc00006bf10)                                        = 0
+     3.897 ( 0.002 ms): tailscale/369042 rt_sigprocmask(how: SETMASK, nset: 0xc00006bf60, sigsetsize: 8)       = 0
+     3.901 ( 0.001 ms): tailscale/369042 gettid()                                                              = 369042 (tailscale)
+     3.906 ( 0.091 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.003 ( 0.002 ms): tailscale/369042 getpid()                                                              = 369041
+     4.007 ( 0.011 ms): tailscale/369042 tgkill(tgid: 369041 (tailscale), pid: 369041 (tailscale), sig: URG)   = 0
+     4.021 ( 0.096 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.123 ( 0.130 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.261 ( 0.105 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.372 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     3.908 ( 0.502 ms): tailscale/369041  ... [continued]: clone())                                            = 369043 (tailscale)
+     4.463 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     4.415 ( 0.002 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0x7ffd2b2b2888, sigsetsize: 8)     = 0
+     4.426 (         ): tailscale/369041 rt_sigreturn()                                                     ...
+     4.448 ( 0.002 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0xe93570, oset: 0x7ffd2b2b2600, sigsetsize: 8) = 0
+         ? (         ): tailscale/369043  ... [continued]: clone())                                            = 
+     4.452 (         ): tailscale/369041 clone(clone_flags: VM|FS|FILES|SIGHAND|THREAD|SYSVSEM|SETTLS, newsp: 0xc000088000, tls: 0xc00005a890) ...
+     4.445 ( 0.003 ms): tailscale/369043 gettid()                                                              = 369043 (tailscale)
+     4.451 ( 0.003 ms): tailscale/369043 sigaltstack(uoss: 0xc000067f50)                                       = 0
+     4.457 ( 0.003 ms): tailscale/369043 sigaltstack(uss: 0xc000067f10)                                        = 0
+     4.463 ( 0.002 ms): tailscale/369043 rt_sigprocmask(how: SETMASK, nset: 0xc000067f60, sigsetsize: 8)       = 0
+     4.469 ( 0.002 ms): tailscale/369043 gettid()                                                              = 369043 (tailscale)
+     4.484 ( 0.018 ms): tailscale/369043 mmap(len: 262144, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)         = 0x7f3b7656a000
+     4.559 ( 0.006 ms): tailscale/369043 rt_sigprocmask(how: SETMASK, nset: 0xe93570, oset: 0xc000067e10, sigsetsize: 8) = 0
+     4.463 ( 0.091 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     4.568 (         ): tailscale/369043 clone(clone_flags: VM|FS|FILES|SIGHAND|THREAD|SYSVSEM|SETTLS, newsp: 0xc000084000, tls: 0xc000088090) ...
+     4.560 ( 0.090 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.653 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.745 ( 0.091 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.840 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.933 ( 0.092 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.031 ( 0.094 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.133 ( 0.105 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     4.452 ( 0.631 ms): tailscale/369041  ... [continued]: clone())                                            = 369044 (tailscale)
+     5.243 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     5.092 ( 0.003 ms): tailscale/369041 rt_sigprocmask(how: SETMASK, nset: 0x7ffd2b2b2600, sigsetsize: 8)     = 0
+     5.100 ( 0.183 ms): tailscale/369041 futex(uaddr: 0xf002c8, op: WAIT|PRIVATE_FLAG)                         = 0
+     5.305 ( 0.009 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     5.318 ( 0.003 ms): tailscale/369041 futex(uaddr: 0xf002c8, op: WAIT|PRIVATE_FLAG)                         = -1 EAGAIN (Resource temporarily unavailable)
+     5.326 ( 0.052 ms): tailscale/369041 futex(uaddr: 0xf002c8, op: WAIT|PRIVATE_FLAG)                         = 0
+     4.568 ( 0.672 ms): tailscale/369043  ... [continued]: clone())                                            = 369045 (tailscale)
+     5.246 ( 0.003 ms): tailscale/369043 rt_sigprocmask(how: SETMASK, nset: 0xc000067e10, sigsetsize: 8)       = 0
+     5.253 ( 0.008 ms): tailscale/369043 futex(uaddr: 0xf002c8, op: WAKE|PRIVATE_FLAG, val: 1)                 = 1
+     5.265 ( 0.073 ms): tailscale/369043 futex(uaddr: 0xc00005a548, op: WAIT|PRIVATE_FLAG)                     = 0
+     5.348 ( 0.003 ms): tailscale/369043 futex(uaddr: 0xc00005a548, op: WAIT|PRIVATE_FLAG)                     = -1 EAGAIN (Resource temporarily unavailable)
+     5.355 ( 0.087 ms): tailscale/369043 nanosleep(rqtp: 0xc000067d78)                                         = 0
+         ? (         ): tailscale/369045  ... [continued]: clone())                                            = 
+     5.454 (         ): tailscale/369043 futex(uaddr: 0xc00005a548, op: WAIT|PRIVATE_FLAG)                  ...
+     5.270 ( 0.002 ms): tailscale/369045 gettid()                                                              = 369045 (tailscale)
+     5.276 ( 0.002 ms): tailscale/369045 sigaltstack(uoss: 0xc000083f50)                                       = 0
+     5.281 ( 0.002 ms): tailscale/369045 sigaltstack(uss: 0xc000083f10)                                        = 0
+     5.287 ( 0.002 ms): tailscale/369045 rt_sigprocmask(how: SETMASK, nset: 0xc000083f60, sigsetsize: 8)       = 0
+     5.292 ( 0.002 ms): tailscale/369045 gettid()                                                              = 369045 (tailscale)
+     5.302 ( 0.010 ms): tailscale/369045 futex(uaddr: 0xc00005a548, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     5.319 ( 0.003 ms): tailscale/369045 futex(uaddr: 0xf002c8, op: WAKE|PRIVATE_FLAG, val: 1)                 = 0
+         ? (         ): tailscale/369044  ... [continued]: clone())                                            = 
+     5.325 (         ): tailscale/369045 futex(uaddr: 0xc000088148, op: WAIT|PRIVATE_FLAG)                  ...
+     5.124 ( 0.003 ms): tailscale/369044 gettid()                                                              = 369044 (tailscale)
+     5.131 ( 0.003 ms): tailscale/369044 sigaltstack(uoss: 0xc000087f50)                                       = 0
+     5.137 ( 0.003 ms): tailscale/369044 sigaltstack(uss: 0xc000087f10)                                        = 0
+     5.144 ( 0.003 ms): tailscale/369044 rt_sigprocmask(how: SETMASK, nset: 0xc000087f60, sigsetsize: 8)       = 0
+     5.150 ( 0.003 ms): tailscale/369044 gettid()                                                              = 369044 (tailscale)
+     5.164 ( 0.172 ms): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                     = 0
+     5.351 ( 0.002 ms): tailscale/369044 futex(uaddr: 0xc00005a548, op: WAKE|PRIVATE_FLAG, val: 1)             = 0
+     5.356 ( 0.007 ms): tailscale/369044 futex(uaddr: 0xf002c8, op: WAKE|PRIVATE_FLAG, val: 1)                 = 1
+     5.243 ( 0.089 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     5.365 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     5.336 ( 0.091 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.432 ( 0.102 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.540 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.634 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.726 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     5.590 ( 0.003 ms): tailscale/369041 getrlimit(resource: NOFILE, rlim: 0xc0000aadf0)                       = 0
+     5.598 ( 0.003 ms): tailscale/369041 setrlimit(resource: NOFILE, rlim: 0xc0000aadf0)                       = 0
+     5.621 ( 0.003 ms): tailscale/369041 fcntl(cmd: GETFL)                                                     = RDWR
+     5.631 ( 0.008 ms): tailscale/369041 futex(uaddr: 0xc00005a548, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     5.646 ( 0.002 ms): tailscale/369041 fcntl(fd: 1</dev/pts/3>, cmd: GETFL)                                  = RDWR
+     5.653 ( 0.002 ms): tailscale/369041 fcntl(fd: 2</dev/pts/3>, cmd: GETFL)                                  = RDWR
+     5.454 ( 0.213 ms): tailscale/369043  ... [continued]: futex())                                            = 0
+     5.677 ( 0.089 ms): tailscale/369043 nanosleep(rqtp: 0xc000067d78)                                         = 0
+     5.774 ( 0.009 ms): tailscale/369043 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     5.365 ( 0.433 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     5.791 (         ): tailscale/369043 futex(uaddr: 0xc00005a548, op: WAIT|PRIVATE_FLAG)                  ...
+     5.726 ( 0.086 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     5.806 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     5.816 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     5.909 ( 0.095 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.010 ( 0.100 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.120 ( 0.104 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.233 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.328 ( 0.086 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.427 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.524 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.620 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.719 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     6.814 ( 0.006 ms): tailscale/369042 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     6.822 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     6.795 ( 0.027 ms): tailscale/369041 openat(dfd: CWD, filename: 0xc2210, flags: RDONLY|CLOEXEC)            = -1 ENOENT (No such file or directory)
+     5.806 ( 1.030 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     6.832 (         ): tailscale/369041 mmap(len: 262144, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)      ...
+     6.832 ( 0.012 ms): tailscale/369041  ... [continued]: mmap())                                             = 0x7f3b7652a000
+     6.843 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     6.866 ( 0.014 ms): tailscale/369041 openat(dfd: CWD, filename: 0x182000, flags: RDONLY|CLOEXEC)           = -1 ENOENT (No such file or directory)
+     6.822 ( 0.088 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     6.923 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     7.020 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     7.015 ( 0.007 ms): tailscale/369041 newfstatat(dfd: CWD, filename: 0x194010, statbuf: 0xc000188448)       = -1 ENOENT (No such file or directory)
+     7.027 ( 0.004 ms): tailscale/369041 newfstatat(dfd: CWD, filename: 0x1b8000, statbuf: 0xc000188518)       = -1 ENOENT (No such file or directory)
+     7.034 ( 0.005 ms): tailscale/369041 newfstatat(dfd: CWD, filename: 0x19c018, statbuf: 0xc0001885e8)       = 0
+     7.020 ( 0.113 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     7.142 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     7.204 ( 0.027 ms): tailscale/369041 readlinkat(dfd: CWD, pathname: 0x194110, buf: 0xc0001d0000, bufsiz: 128) = 18
+     7.236 ( 0.006 ms): tailscale/369041 newfstatat(dfd: CWD, filename: 0x194130, statbuf: 0xc0001c62a8)       = 0
+     7.142 ( 0.101 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     7.250 ( 0.099 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     7.362 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     7.379 ( 0.010 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     6.843 ( 0.563 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     7.362 ( 0.097 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     7.413 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     7.465 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     7.452 ( 0.018 ms): tailscale/369041 socket(family: LOCAL, type: STREAM|CLOEXEC|NONBLOCK)                  = 4
+     7.479 ( 0.018 ms): tailscale/369041 connect(fd: 4, uservaddr: 0xc0001a6190, addrlen: 37)                  = 0
+     7.501 ( 0.005 ms): tailscale/369041 epoll_create1(flags: 524288)                                          = 5
+     7.508 ( 0.008 ms): tailscale/369041 pipe2(fildes: 0xc0000dec90, flags: CLOEXEC|NONBLOCK)                  = 0
+     7.519 ( 0.005 ms): tailscale/369041 epoll_ctl(epfd: 5<anon_inode:[eventpoll]>, op: ADD, fd: 6<pipe:[3772759]>, event: 0xc0000dece4) = 0
+     7.533 ( 0.003 ms): tailscale/369041 epoll_ctl(epfd: 5<anon_inode:[eventpoll]>, op: ADD, fd: 4<socket:[3772758]>, event: 0xc0000ded2c) = 0
+     7.539 ( 0.002 ms): tailscale/369041 getsockname(fd: 4<socket:[3772758]>, usockaddr: 0xc0000deee8, usockaddr_len: 0xc0000deee4) = 0
+     7.544 ( 0.002 ms): tailscale/369041 getpeername(fd: 4<socket:[3772758]>, usockaddr: 0xc0000deee8, usockaddr_len: 0xc0000deee4) = 0
+     7.556 ( 0.006 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     7.602 ( 0.008 ms): tailscale/369041 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = -1 EAGAIN (Resource temporarily unavailable)
+     7.615 ( 0.003 ms): tailscale/369041 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0x7ffd2b2b2238, maxevents: 128) = 1
+     7.624 ( 0.103 ms): tailscale/369041 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0x7ffd2b2b2238, maxevents: 128, timeout: -1) = 1
+     7.736 ( 0.003 ms): tailscale/369041 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0x7ffd2b2b2238, maxevents: 128) = 0
+     7.743 ( 0.536 ms): tailscale/369041 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0x7ffd2b2b2238, maxevents: 128, timeout: -1) = 1
+     8.291 ( 0.010 ms): tailscale/369041 futex(uaddr: 0xf00a80, op: WAKE|PRIVATE_FLAG, val: 1)                 = 1
+     8.305 ( 0.020 ms): tailscale/369041 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = 4096
+     8.384 ( 0.007 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     8.409 ( 0.006 ms): tailscale/369041 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = 4096
+     8.428 ( 0.003 ms): tailscale/369041 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = 4096
+     8.435 ( 0.012 ms): tailscale/369041 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = 407
+     8.455 ( 0.005 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     8.470 ( 0.003 ms): tailscale/369041 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = -1 EAGAIN (Resource temporarily unavailable)
+     5.791 ( 1.826 ms): tailscale/369043  ... [continued]: futex())                                            = 0
+     7.624 ( 0.004 ms): tailscale/369043 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000067818, maxevents: 128) = 0
+     7.633 ( 0.066 ms): tailscale/369043 futex(uaddr: 0xc00005a548, op: WAIT|PRIVATE_FLAG)                     = 0
+     7.706 ( 0.653 ms): tailscale/369043 futex(uaddr: 0xc00005a548, op: WAIT|PRIVATE_FLAG)                     = 0
+     8.370 ( 0.003 ms): tailscale/369043 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000067818, maxevents: 128) = 0
+     7.413 ( 0.163 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     8.377 (         ): tailscale/369043 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000067818, maxevents: 128, timeout: -1) ...
+     7.581 ( 0.005 ms): tailscale/369044 futex(uaddr: 0xc00005a548, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     7.649 ( 0.018 ms): tailscale/369044 write(fd: 4<socket:[3772758]>, buf: 0xc0001f3000, count: 139)         = 139
+     7.672 ( 0.004 ms): tailscale/369044 futex(uaddr: 0xc00005a548, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     7.683 ( 0.725 ms): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                     = 0
+     8.416 ( 0.058 ms): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                     = 0
+     7.465 ( 0.103 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     8.479 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     7.574 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     7.667 ( 0.086 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     7.757 ( 0.563 ms): tailscale/369042 futex(uaddr: 0xf00a80, op: WAIT|PRIVATE_FLAG, utime: 0xc00006beb8)    = 0
+     8.328 ( 0.011 ms): tailscale/369042 futex(uaddr: 0xc00005a548, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     8.343 ( 0.094 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     8.442 ( 0.087 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     8.532 ( 0.085 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     8.621 ( 0.087 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     8.712 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     8.809 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     8.906 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     9.004 ( 0.088 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     9.100 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     9.100 ( 0.019 ms): tailscale/369041 openat(dfd: CWD, filename: 0x2180d0)                                  = 8
+     9.122 ( 0.005 ms): tailscale/369041 read(fd: 8, buf: 0xc00011f7f0, count: 4096)                           = 3552
+     9.130 ( 0.002 ms): tailscale/369041 read(fd: 8, buf: 0xc00011f7f0, count: 4096)                           = 0
+     9.134 ( 0.002 ms): tailscale/369041 close(fd: 8)                                                          = 0
+     9.100 ( 0.088 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     9.196 ( 0.102 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     9.305 ( 0.087 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     9.397 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     9.385 ( 0.024 ms): tailscale/369041 write(fd: 1</dev/pts/3>, buf: 0xc00021e000, count: 531)               = 531
+     9.413 ( 0.002 ms): tailscale/369041 write(fd: 1</dev/pts/3>, buf: 0xc0000ce300, count: 1)                 = 1
+     9.418 ( 0.002 ms): tailscale/369041 write(fd: 1</dev/pts/3>, buf: 0xc0000ce300, count: 16)                = 16
+     9.423 ( 0.003 ms): tailscale/369041 write(fd: 1</dev/pts/3>, buf: 0xc0000ce300, count: 104)               = 104
+     9.456 ( 0.012 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     8.479 ( 1.011 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     9.502 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     9.397 ( 0.114 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     9.508 (         ): tailscale/369041 write(fd: 4<socket:[3772758]>, buf: 0xc0001f3000, count: 145)      ...
+     9.508 ( 0.038 ms): tailscale/369041  ... [continued]: write())                                            = 145
+     9.536 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     9.555 ( 0.008 ms): tailscale/369041 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     9.502 ( 0.075 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     9.571 (         ): tailscale/369041 futex(uaddr: 0xf002c8, op: WAIT|PRIVATE_FLAG)                      ...
+     9.536 ( 0.104 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     9.583 (         ): tailscale/369044 futex(uaddr: 0xc00005a948, op: WAIT|PRIVATE_FLAG)                  ...
+     8.377 ( 1.262 ms): tailscale/369043  ... [continued]: epoll_pwait())                                      = 1
+     9.647 (         ): tailscale/369042 futex(uaddr: 0xf00a80, op: WAIT|PRIVATE_FLAG, utime: 0xc00006beb8) ...
+     9.651 ( 0.004 ms): tailscale/369043 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000067818, maxevents: 128) = 0
+     9.660 ( 0.043 ms): tailscale/369043 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000067818, maxevents: 128, timeout: -1) = 1
+     9.712 ( 0.006 ms): tailscale/369043 futex(uaddr: 0xf00a80, op: WAKE|PRIVATE_FLAG, val: 1)                 = 1
+     9.721 ( 0.018 ms): tailscale/369043 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = 441
+     9.647 ( 0.075 ms): tailscale/369042  ... [continued]: futex())                                            = 0
+     9.727 ( 0.091 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+     9.583 ( 0.271 ms): tailscale/369044  ... [continued]: futex())                                            = 0
+     9.827 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     9.857 ( 0.002 ms): tailscale/369044 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000087818, maxevents: 128) = 0
+     9.867 (         ): tailscale/369044 nanosleep(rqtp: 0xc000087d50)                                      ...
+     9.830 ( 0.014 ms): tailscale/369043 futex(uaddr: 0xc00005a948, op: WAKE|PRIVATE_FLAG, val: 1)             = 1
+     9.904 ( 0.007 ms): tailscale/369043 read(fd: 4<socket:[3772758]>, buf: 0xc0001f2000, count: 4096)         = -1 EAGAIN (Resource temporarily unavailable)
+     9.827 ( 0.093 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     9.926 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+     9.867 ( 0.066 ms): tailscale/369044  ... [continued]: nanosleep())                                        = 0
+     9.924 (         ): tailscale/369043 mmap(len: 262144, prot: READ|WRITE, flags: PRIVATE|ANONYMOUS)      ...
+     9.924 ( 0.016 ms): tailscale/369043  ... [continued]: mmap())                                             = 0x7f3b764ea000
+     9.926 ( 0.089 ms): tailscale/369042  ... [continued]: nanosleep())                                        = 0
+     9.940 (         ): tailscale/369044 epoll_pwait(epfd: 5<anon_inode:[eventpoll]>, events: 0xc000087818, maxevents: 128, timeout: -1) ...
+    10.024 ( 0.089 ms): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                         = 0
+    10.120 (         ): tailscale/369042 nanosleep(rqtp: 0xc00006bf18)                                      ...
+    10.149 (         ): tailscale/369043 exit_group()                                                          = ?
+     5.325 ( 4.869 ms): tailscale/369045  ... [continued]: futex())                                            = -1 (unknown) (INTERNAL ERROR: strerror_r(512, [buf], 128)=22)
+     9.940 ( 0.240 ms): tailscale/369044  ... [continued]: epoll_pwait())                                      = -1 EINTR (Interrupted system call)
+    10.120 ( 0.064 ms): tailscale/369042  ... [continued]: nanosleep())                                        = -1 (unknown) (INTERNAL ERROR: strerror_r(516, [buf], 128)=22)
+     9.571 ( 0.618 ms): tailscale/369041  ... [continued]: futex())                                            = -1 (unknown) (INTERNAL ERROR: strerror_r(512, [buf], 128)=22)

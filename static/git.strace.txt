@@ -1,0 +1,327 @@
+1700837990.631952 execve("/usr/bin/git", ["git", "status"], 0x7ffe560697a0 /* 31 vars */) = 0
+1700837990.632596 brk(NULL)             = 0x55d7ed978000
+1700837990.632790 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7facbabb9000
+1700837990.632950 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.633221 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+1700837990.633381 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=31538, ...}, AT_EMPTY_PATH) = 0
+1700837990.633552 mmap(NULL, 31538, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7facbabb1000
+1700837990.633665 close(3)              = 0
+1700837990.633773 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3
+1700837990.633895 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+1700837990.634008 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=629384, ...}, AT_EMPTY_PATH) = 0
+1700837990.634125 mmap(NULL, 627592, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7facbab17000
+1700837990.634235 mmap(0x7facbab19000, 438272, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7facbab19000
+1700837990.634358 mmap(0x7facbab84000, 176128, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6d000) = 0x7facbab84000
+1700837990.634469 mmap(0x7facbabaf000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x98000) = 0x7facbabaf000
+1700837990.634605 close(3)              = 0
+1700837990.634708 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+1700837990.634879 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+1700837990.634999 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=121280, ...}, AT_EMPTY_PATH) = 0
+1700837990.635126 mmap(NULL, 123280, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7facbaaf8000
+1700837990.635238 mmap(0x7facbaafb000, 77824, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7facbaafb000
+1700837990.635360 mmap(0x7facbab0e000, 28672, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x16000) = 0x7facbab0e000
+1700837990.635472 mmap(0x7facbab15000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1c000) = 0x7facbab15000
+1700837990.635608 close(3)              = 0
+1700837990.635711 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+1700837990.635830 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\220s\2\0\0\0\0\0"..., 832) = 832
+1700837990.635943 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+1700837990.636053 newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=1922136, ...}, AT_EMPTY_PATH) = 0
+1700837990.636198 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+1700837990.636312 mmap(NULL, 1970000, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7facba917000
+1700837990.636424 mmap(0x7facba93d000, 1396736, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x26000) = 0x7facba93d000
+1700837990.636548 mmap(0x7facbaa92000, 339968, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x17b000) = 0x7facbaa92000
+1700837990.636662 mmap(0x7facbaae5000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1ce000) = 0x7facbaae5000
+1700837990.636789 mmap(0x7facbaaeb000, 53072, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7facbaaeb000
+1700837990.636923 close(3)              = 0
+1700837990.637043 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7facba914000
+1700837990.637163 arch_prctl(ARCH_SET_FS, 0x7facba914740) = 0
+1700837990.637261 set_tid_address(0x7facba914a10) = 368491
+1700837990.637357 set_robust_list(0x7facba914a20, 24) = 0
+1700837990.637452 rseq(0x7facba915060, 0x20, 0, 0x53053053) = 0
+1700837990.637645 mprotect(0x7facbaae5000, 16384, PROT_READ) = 0
+1700837990.637794 mprotect(0x7facbab15000, 4096, PROT_READ) = 0
+1700837990.637910 mprotect(0x7facbabaf000, 4096, PROT_READ) = 0
+1700837990.638196 mprotect(0x55d7ec56b000, 16384, PROT_READ) = 0
+1700837990.638355 mprotect(0x7facbabeb000, 8192, PROT_READ) = 0
+1700837990.638502 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+1700837990.638675 munmap(0x7facbabb1000, 31538) = 0
+1700837990.638952 openat(AT_FDCWD, "/dev/null", O_RDWR) = 3
+1700837990.639106 close(3)              = 0
+1700837990.639209 rt_sigprocmask(SIG_UNBLOCK, [PIPE], NULL, 8) = 0
+1700837990.639330 rt_sigaction(SIGPIPE, {sa_handler=SIG_DFL, sa_mask=[PIPE], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+1700837990.639472 getrandom("\xc9\x77\xb2\x18\x5a\x0a\xe2\xcb", 8, GRND_NONBLOCK) = 8
+1700837990.639582 brk(NULL)             = 0x55d7ed978000
+1700837990.639679 brk(0x55d7ed999000)   = 0x55d7ed999000
+1700837990.639793 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+1700837990.639918 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=3048928, ...}, AT_EMPTY_PATH) = 0
+1700837990.640052 mmap(NULL, 3048928, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7facba600000
+1700837990.640192 close(3)              = 0
+1700837990.640418 newfstatat(AT_FDCWD, "/usr/share/locale", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.640672 access("/etc/gitconfig", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.640839 access("/home/cceckman/.config/git/config", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.640966 access("/home/cceckman/.gitconfig", R_OK) = 0
+1700837990.641092 openat(AT_FDCWD, "/home/cceckman/.gitconfig", O_RDONLY) = 3
+1700837990.641213 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1030, ...}, AT_EMPTY_PATH) = 0
+1700837990.641347 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1030, ...}, AT_EMPTY_PATH) = 0
+1700837990.641472 read(3, "# This is Git's per-user configu"..., 4096) = 1030
+1700837990.641595 read(3, "", 4096)     = 0
+1700837990.641695 close(3)              = 0
+1700837990.641797 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.641917 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.642024 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.642143 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.642261 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git/HEAD", {st_mode=S_IFREG|0644, st_size=21, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.642379 openat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git/HEAD", O_RDONLY) = 3
+1700837990.642492 read(3, "ref: refs/heads/main\n", 255) = 21
+1700837990.642597 read(3, "", 234)      = 0
+1700837990.642692 close(3)              = 0
+1700837990.642835 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git/commondir", 0x7ffd5f0d72d0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.642957 access("/home/cceckman/r/github.com/cceckman/startup-showdown/.git/objects", X_OK) = 0
+1700837990.643067 access("/home/cceckman/r/github.com/cceckman/startup-showdown/.git/refs", X_OK) = 0
+1700837990.643175 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.643293 geteuid()             = 1000
+1700837990.643387 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.643497 geteuid()             = 1000
+1700837990.643594 newfstatat(AT_FDCWD, ".git/commondir", 0x7ffd5f0d7400, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.643704 openat(AT_FDCWD, ".git/config", O_RDONLY) = 3
+1700837990.643814 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+1700837990.643927 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+1700837990.644036 read(3, "[core]\n\trepositoryformatversion "..., 4096) = 92
+1700837990.644172 read(3, "", 4096)     = 0
+1700837990.644278 close(3)              = 0
+1700837990.644381 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.644490 newfstatat(AT_FDCWD, ".git", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.644612 newfstatat(AT_FDCWD, ".git/commondir", 0x7ffd5f0d7380, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.644740 newfstatat(AT_FDCWD, "/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.644859 newfstatat(AT_FDCWD, "/home/cceckman", {st_mode=S_IFDIR|0700, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.644974 newfstatat(AT_FDCWD, "/home/cceckman/r", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.645088 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.645207 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.645321 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.645499 access("/etc/gitconfig", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.645660 access("/home/cceckman/.config/git/config", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.645780 access("/home/cceckman/.gitconfig", R_OK) = 0
+1700837990.645893 openat(AT_FDCWD, "/home/cceckman/.gitconfig", O_RDONLY) = 3
+1700837990.646006 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1030, ...}, AT_EMPTY_PATH) = 0
+1700837990.646121 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1030, ...}, AT_EMPTY_PATH) = 0
+1700837990.646240 read(3, "# This is Git's per-user configu"..., 4096) = 1030
+1700837990.646360 read(3, "", 4096)     = 0
+1700837990.646457 close(3)              = 0
+1700837990.646554 access(".git/config", R_OK) = 0
+1700837990.646663 openat(AT_FDCWD, ".git/config", O_RDONLY) = 3
+1700837990.646836 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+1700837990.646978 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+1700837990.647094 read(3, "[core]\n\trepositoryformatversion "..., 4096) = 92
+1700837990.647200 read(3, "", 4096)     = 0
+1700837990.647294 close(3)              = 0
+1700837990.647391 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.647496 chdir("/home/cceckman/r/github.com/cceckman/startup-showdown") = 0
+1700837990.647626 access("/etc/gitconfig", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.647782 access("/home/cceckman/.config/git/config", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.647899 access("/home/cceckman/.gitconfig", R_OK) = 0
+1700837990.648007 openat(AT_FDCWD, "/home/cceckman/.gitconfig", O_RDONLY) = 3
+1700837990.648139 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1030, ...}, AT_EMPTY_PATH) = 0
+1700837990.648258 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1030, ...}, AT_EMPTY_PATH) = 0
+1700837990.648372 read(3, "# This is Git's per-user configu"..., 4096) = 1030
+1700837990.648520 read(3, "", 4096)     = 0
+1700837990.648644 close(3)              = 0
+1700837990.648745 access(".git/config", R_OK) = 0
+1700837990.648856 openat(AT_FDCWD, ".git/config", O_RDONLY) = 3
+1700837990.648967 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+1700837990.649083 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+1700837990.649196 read(3, "[core]\n\trepositoryformatversion "..., 4096) = 92
+1700837990.649306 read(3, "", 4096)     = 0
+1700837990.649404 close(3)              = 0
+1700837990.649517 newfstatat(AT_FDCWD, ".git/commondir", 0x7ffd5f0d74b0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.649639 newfstatat(AT_FDCWD, ".git/HEAD", {st_mode=S_IFREG|0644, st_size=21, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.649755 openat(AT_FDCWD, ".git/HEAD", O_RDONLY) = 3
+1700837990.649907 read(3, "ref: refs/heads/main\n", 256) = 21
+1700837990.650019 read(3, "", 235)      = 0
+1700837990.650116 close(3)              = 0
+1700837990.650238 newfstatat(AT_FDCWD, ".git/refs/heads/main", {st_mode=S_IFREG|0644, st_size=41, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.650353 openat(AT_FDCWD, ".git/refs/heads/main", O_RDONLY) = 3
+1700837990.650459 read(3, "97627f59ff9fa46c0149f01c1f0af29f"..., 256) = 41
+1700837990.650561 read(3, "", 215)      = 0
+1700837990.650656 close(3)              = 0
+1700837990.650843 newfstatat(AT_FDCWD, ".git/MERGE_HEAD", 0x7ffd5f0d75e0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.650987 newfstatat(AT_FDCWD, ".git/CHERRY_PICK_HEAD", 0x7ffd5f0d7450, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.651127 openat(AT_FDCWD, ".git/packed-refs", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.651299 openat(AT_FDCWD, ".git/index", O_RDONLY) = 3
+1700837990.651432 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1484, ...}, AT_EMPTY_PATH) = 0
+1700837990.651599 mmap(NULL, 1484, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7facbabb8000
+1700837990.651747 close(3)              = 0
+1700837990.651899 munmap(0x7facbabb8000, 1484) = 0
+1700837990.652062 ioctl(2, TCGETS, {c_iflag=ICRNL|IXON|IUTF8, c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|OPOST|ONLCR, c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|ICANON|ECHO|ECHOE|ECHOK|IEXTEN|ECHOCTL|ECHOKE, ...}) = 0
+1700837990.652242 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+1700837990.652400 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2996, ...}, AT_EMPTY_PATH) = 0
+1700837990.652560 read(3, "# Locale name alias data base.\n#"..., 4096) = 2996
+1700837990.652727 read(3, "", 4096)     = 0
+1700837990.652846 close(3)              = 0
+1700837990.652968 openat(AT_FDCWD, "/usr/share/locale/en_US.UTF-8/LC_MESSAGES/git.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.653126 openat(AT_FDCWD, "/usr/share/locale/en_US.utf8/LC_MESSAGES/git.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.653271 openat(AT_FDCWD, "/usr/share/locale/en_US/LC_MESSAGES/git.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.653410 openat(AT_FDCWD, "/usr/share/locale/en.UTF-8/LC_MESSAGES/git.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.653556 openat(AT_FDCWD, "/usr/share/locale/en.utf8/LC_MESSAGES/git.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.653698 openat(AT_FDCWD, "/usr/share/locale/en/LC_MESSAGES/git.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.653869 rt_sigaction(SIGALRM, {sa_handler=0x55d7ec3ea180, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, NULL, 8) = 0
+1700837990.654005 setitimer(ITIMER_REAL, {it_interval={tv_sec=1, tv_usec=0}, it_value={tv_sec=1, tv_usec=0}}, NULL) = 0
+1700837990.654145 newfstatat(AT_FDCWD, "LICENSE", {st_mode=S_IFREG|0644, st_size=1075, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.654313 newfstatat(AT_FDCWD, "README.md", {st_mode=S_IFREG|0644, st_size=1184, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.654454 newfstatat(AT_FDCWD, "analysis", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.654601 newfstatat(AT_FDCWD, "analysis/analyze.bin.do", {st_mode=S_IFREG|0644, st_size=178, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.654781 newfstatat(AT_FDCWD, "analysis/clean.do", {st_mode=S_IFREG|0644, st_size=24, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.654937 newfstatat(AT_FDCWD, "clean-files.do", {st_mode=S_IFREG|0644, st_size=82, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.655074 newfstatat(AT_FDCWD, "clean.do", {st_mode=S_IFREG|0644, st_size=103, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.655240 newfstatat(AT_FDCWD, "do.sh", {st_mode=S_IFREG|0755, st_size=1993, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.655383 newfstatat(AT_FDCWD, "post.md", {st_mode=S_IFREG|0755, st_size=21412, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.655550 newfstatat(AT_FDCWD, "results", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.655720 newfstatat(AT_FDCWD, "results/.gitignore", {st_mode=S_IFREG|0644, st_size=22, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.655855 newfstatat(AT_FDCWD, "results/clean.do", {st_mode=S_IFLNK|0777, st_size=17, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656003 newfstatat(AT_FDCWD, "results/default.do", {st_mode=S_IFREG|0644, st_size=146, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656181 newfstatat(AT_FDCWD, "runner", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656322 newfstatat(AT_FDCWD, "runner/.gitignore", {st_mode=S_IFREG|0644, st_size=15, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656464 newfstatat(AT_FDCWD, "sut", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656603 newfstatat(AT_FDCWD, "sut/clean.do", {st_mode=S_IFREG|0644, st_size=24, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656742 newfstatat(AT_FDCWD, "tests", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.656878 newfstatat(AT_FDCWD, "tests/.gitignore", {st_mode=S_IFREG|0644, st_size=22, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.657017 newfstatat(AT_FDCWD, "tests/clean.do", {st_mode=S_IFLNK|0777, st_size=17, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.657167 newfstatat(AT_FDCWD, "tests/default.do", {st_mode=S_IFREG|0644, st_size=154, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.657317 setitimer(ITIMER_REAL, {it_interval={tv_sec=0, tv_usec=0}, it_value={tv_sec=0, tv_usec=0}}, NULL) = 0
+1700837990.657446 rt_sigaction(SIGALRM, {sa_handler=SIG_IGN, sa_mask=[ALRM], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=0x55d7ec3ea180, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, 8) = 0
+1700837990.657581 readlink(".git/index", 0x55d7ed981080, 32) = -1 EINVAL (Invalid argument)
+1700837990.657734 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.657879 openat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git/index.lock", O_RDWR|O_CREAT|O_EXCL|O_CLOEXEC, 0666) = 3
+1700837990.658097 rt_sigaction(SIGINT, {sa_handler=0x55d7ec458100, sa_mask=[INT], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+1700837990.658245 rt_sigaction(SIGHUP, {sa_handler=0x55d7ec458100, sa_mask=[HUP], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+1700837990.658385 rt_sigaction(SIGTERM, {sa_handler=0x55d7ec458100, sa_mask=[TERM], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+1700837990.658518 rt_sigaction(SIGQUIT, {sa_handler=0x55d7ec458100, sa_mask=[QUIT], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+1700837990.658647 rt_sigaction(SIGPIPE, {sa_handler=0x55d7ec458100, sa_mask=[PIPE], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, {sa_handler=SIG_DFL, sa_mask=[PIPE], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7facba952fd0}, 8) = 0
+1700837990.658826 getpid()              = 368491
+1700837990.658953 newfstatat(AT_FDCWD, ".git/HEAD", {st_mode=S_IFREG|0644, st_size=21, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.659120 openat(AT_FDCWD, ".git/HEAD", O_RDONLY) = 4
+1700837990.659271 read(4, "ref: refs/heads/main\n", 256) = 21
+1700837990.659404 read(4, "", 235)      = 0
+1700837990.659532 close(4)              = 0
+1700837990.659670 newfstatat(AT_FDCWD, ".git/refs/heads/main", {st_mode=S_IFREG|0644, st_size=41, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.659824 openat(AT_FDCWD, ".git/refs/heads/main", O_RDONLY) = 4
+1700837990.659957 read(4, "97627f59ff9fa46c0149f01c1f0af29f"..., 256) = 41
+1700837990.660127 read(4, "", 215)      = 0
+1700837990.660254 close(4)              = 0
+1700837990.660372 newfstatat(AT_FDCWD, ".git/refs/HEAD", 0x7ffd5f0d71d0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.660524 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6f00, 0) = -1 ENOENT (No such file or directory)
+1700837990.660689 newfstatat(AT_FDCWD, ".git/refs/tags/HEAD", 0x7ffd5f0d71d0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.660826 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6f00, 0) = -1 ENOENT (No such file or directory)
+1700837990.660978 newfstatat(AT_FDCWD, ".git/refs/heads/HEAD", 0x7ffd5f0d71d0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.661110 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6f00, 0) = -1 ENOENT (No such file or directory)
+1700837990.661262 newfstatat(AT_FDCWD, ".git/refs/remotes/HEAD", 0x7ffd5f0d71d0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.661394 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6f00, 0) = -1 ENOENT (No such file or directory)
+1700837990.661540 newfstatat(AT_FDCWD, ".git/refs/remotes/HEAD/HEAD", 0x7ffd5f0d71d0, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.661676 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6f00, 0) = -1 ENOENT (No such file or directory)
+1700837990.661846 newfstatat(AT_FDCWD, "post.md", {st_mode=S_IFREG|0755, st_size=21412, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.661990 newfstatat(AT_FDCWD, ".git/HEAD", {st_mode=S_IFREG|0644, st_size=21, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.662106 openat(AT_FDCWD, ".git/HEAD", O_RDONLY) = 4
+1700837990.662217 read(4, "ref: refs/heads/main\n", 256) = 21
+1700837990.662319 read(4, "", 235)      = 0
+1700837990.662408 close(4)              = 0
+1700837990.662505 newfstatat(AT_FDCWD, ".git/refs/heads/main", {st_mode=S_IFREG|0644, st_size=41, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.662616 openat(AT_FDCWD, ".git/refs/heads/main", O_RDONLY) = 4
+1700837990.662730 read(4, "97627f59ff9fa46c0149f01c1f0af29f"..., 256) = 41
+1700837990.662835 read(4, "", 215)      = 0
+1700837990.662930 close(4)              = 0
+1700837990.663024 newfstatat(AT_FDCWD, ".git/refs/HEAD", 0x7ffd5f0d6430, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.663132 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6160, 0) = -1 ENOENT (No such file or directory)
+1700837990.663241 newfstatat(AT_FDCWD, ".git/refs/tags/HEAD", 0x7ffd5f0d6430, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.663348 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6160, 0) = -1 ENOENT (No such file or directory)
+1700837990.663454 newfstatat(AT_FDCWD, ".git/refs/heads/HEAD", 0x7ffd5f0d6430, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.663559 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6160, 0) = -1 ENOENT (No such file or directory)
+1700837990.663665 newfstatat(AT_FDCWD, ".git/refs/remotes/HEAD", 0x7ffd5f0d6430, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.663770 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6160, 0) = -1 ENOENT (No such file or directory)
+1700837990.663877 newfstatat(AT_FDCWD, ".git/refs/remotes/HEAD/HEAD", 0x7ffd5f0d6430, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.663985 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6160, 0) = -1 ENOENT (No such file or directory)
+1700837990.664113 openat(AT_FDCWD, ".git/refs/", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 4
+1700837990.664228 newfstatat(4, "", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_EMPTY_PATH) = 0
+1700837990.664351 getdents64(4, 0x55d7ed984db0 /* 4 entries */, 32768) = 104
+1700837990.664475 newfstatat(AT_FDCWD, ".git/refs/heads", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.664590 newfstatat(AT_FDCWD, ".git/refs/tags", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.664703 getdents64(4, 0x55d7ed984db0 /* 0 entries */, 32768) = 0
+1700837990.664803 close(4)              = 0
+1700837990.664901 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d64f0, 0) = -1 ENOENT (No such file or directory)
+1700837990.665014 openat(AT_FDCWD, ".git/info/grafts", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.665129 openat(AT_FDCWD, ".git/shallow", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.665240 openat(AT_FDCWD, ".git/objects/info/alternates", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.665367 openat(AT_FDCWD, ".git/objects/info/commit-graph", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+1700837990.665480 openat(AT_FDCWD, ".git/objects/info/commit-graphs/commit-graph-chain", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.665588 newfstatat(AT_FDCWD, ".git/objects/info/commit-graphs/commit-graph-chain", 0x7ffd5f0d66f0, 0) = -1 ENOENT (No such file or directory)
+1700837990.665699 openat(AT_FDCWD, ".git/objects/pack/multi-pack-index", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+1700837990.665809 openat(AT_FDCWD, ".git/objects/pack", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 4
+1700837990.665916 newfstatat(4, "", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_EMPTY_PATH) = 0
+1700837990.666027 getdents64(4, 0x55d7ed984fa0 /* 2 entries */, 32768) = 48
+1700837990.666136 getdents64(4, 0x55d7ed984fa0 /* 0 entries */, 32768) = 0
+1700837990.666235 close(4)              = 0
+1700837990.666328 openat(AT_FDCWD, ".git/objects/97/627f59ff9fa46c0149f01c1f0af29fb129145e", O_RDONLY|O_CLOEXEC) = 4
+1700837990.666437 newfstatat(4, "", {st_mode=S_IFREG|0444, st_size=175, ...}, AT_EMPTY_PATH) = 0
+1700837990.666550 mmap(NULL, 175, PROT_READ, MAP_PRIVATE, 4, 0) = 0x7facbabb8000
+1700837990.666657 close(4)              = 0
+1700837990.666810 munmap(0x7facbabb8000, 175) = 0
+1700837990.666931 openat(AT_FDCWD, ".git/objects/97/627f59ff9fa46c0149f01c1f0af29fb129145e", O_RDONLY|O_CLOEXEC) = 4
+1700837990.667043 newfstatat(4, "", {st_mode=S_IFREG|0444, st_size=175, ...}, AT_EMPTY_PATH) = 0
+1700837990.667155 mmap(NULL, 175, PROT_READ, MAP_PRIVATE, 4, 0) = 0x7facbabb8000
+1700837990.667254 close(4)              = 0
+1700837990.667357 munmap(0x7facbabb8000, 175) = 0
+1700837990.667479 brk(0x55d7ed9c6000)   = 0x55d7ed9c6000
+1700837990.667587 mmap(NULL, 524288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7facba580000
+1700837990.667706 openat(AT_FDCWD, ".git/objects/1c/1f641780bea55e1b7a7eaa55f91bcbb887b004", O_RDONLY|O_CLOEXEC) = 4
+1700837990.667818 newfstatat(4, "", {st_mode=S_IFREG|0444, st_size=361, ...}, AT_EMPTY_PATH) = 0
+1700837990.667929 mmap(NULL, 361, PROT_READ, MAP_PRIVATE, 4, 0) = 0x7facbabb8000
+1700837990.668031 close(4)              = 0
+1700837990.668158 munmap(0x7facbabb8000, 361) = 0
+1700837990.668288 access("/home/cceckman/.gitignore_global", R_OK) = 0
+1700837990.668410 openat(AT_FDCWD, "/home/cceckman/.gitignore_global", O_RDONLY) = 4
+1700837990.668523 newfstatat(4, "", {st_mode=S_IFREG|0644, st_size=49, ...}, AT_EMPTY_PATH) = 0
+1700837990.668636 read(4, "*.swp\n*.un~\nbazel-*\n.redo/**\n.gc"..., 49) = 49
+1700837990.668736 close(4)              = 0
+1700837990.668837 access(".git/info/exclude", R_OK) = 0
+1700837990.668947 openat(AT_FDCWD, ".git/info/exclude", O_RDONLY) = 4
+1700837990.669055 newfstatat(4, "", {st_mode=S_IFREG|0644, st_size=240, ...}, AT_EMPTY_PATH) = 0
+1700837990.669162 read(4, "# git ls-files --others --exclud"..., 240) = 240
+1700837990.669266 close(4)              = 0
+1700837990.669382 newfstatat(AT_FDCWD, ".git/MERGE_HEAD", 0x7ffd5f0d74b0, 0) = -1 ENOENT (No such file or directory)
+1700837990.669492 newfstatat(AT_FDCWD, ".git/rebase-apply", 0x7ffd5f0d7380, 0) = -1 ENOENT (No such file or directory)
+1700837990.669601 newfstatat(AT_FDCWD, ".git/rebase-merge", 0x7ffd5f0d7380, 0) = -1 ENOENT (No such file or directory)
+1700837990.669712 newfstatat(AT_FDCWD, ".git/CHERRY_PICK_HEAD", 0x7ffd5f0d7280, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.669835 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6fb0, 0) = -1 ENOENT (No such file or directory)
+1700837990.669936 newfstatat(AT_FDCWD, ".git/BISECT_LOG", 0x7ffd5f0d7540, 0) = -1 ENOENT (No such file or directory)
+1700837990.670041 newfstatat(AT_FDCWD, ".git/REVERT_HEAD", 0x7ffd5f0d7280, AT_SYMLINK_NOFOLLOW) = -1 ENOENT (No such file or directory)
+1700837990.670142 newfstatat(AT_FDCWD, ".git/packed-refs", 0x7ffd5f0d6fb0, 0) = -1 ENOENT (No such file or directory)
+1700837990.670246 openat(AT_FDCWD, ".git/sequencer/todo", O_RDONLY) = -1 ENOENT (No such file or directory)
+1700837990.670369 close(3)              = 0
+1700837990.670466 unlink("/home/cceckman/r/github.com/cceckman/startup-showdown/.git/index.lock") = 0
+1700837990.670616 ioctl(1, TCGETS, {c_iflag=ICRNL|IXON|IUTF8, c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|OPOST|ONLCR, c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|ICANON|ECHO|ECHOE|ECHOK|IEXTEN|ECHOCTL|ECHOKE, ...}) = 0
+1700837990.670744 newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x2), ...}, AT_EMPTY_PATH) = 0
+1700837990.670867 write(1, "On branch main\n", 15) = 15
+1700837990.670981 newfstatat(AT_FDCWD, ".git/HEAD", {st_mode=S_IFREG|0644, st_size=21, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.671092 openat(AT_FDCWD, ".git/HEAD", O_RDONLY) = 3
+1700837990.671236 read(3, "ref: refs/heads/main\n", 256) = 21
+1700837990.671341 read(3, "", 235)      = 0
+1700837990.671453 close(3)              = 0
+1700837990.671588 newfstatat(AT_FDCWD, ".git/refs/heads/main", {st_mode=S_IFREG|0644, st_size=41, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.671739 openat(AT_FDCWD, ".git/refs/heads/main", O_RDONLY) = 3
+1700837990.671876 read(3, "97627f59ff9fa46c0149f01c1f0af29f"..., 256) = 41
+1700837990.671998 read(3, "", 215)      = 0
+1700837990.672118 close(3)              = 0
+1700837990.672247 newfstatat(AT_FDCWD, ".git/refs/heads/main", {st_mode=S_IFREG|0644, st_size=41, ...}, AT_SYMLINK_NOFOLLOW) = 0
+1700837990.672376 openat(AT_FDCWD, ".git/refs/heads/main", O_RDONLY) = 3
+1700837990.672499 read(3, "97627f59ff9fa46c0149f01c1f0af29f"..., 256) = 41
+1700837990.672613 read(3, "", 215)      = 0
+1700837990.672717 close(3)              = 0
+1700837990.672835 write(1, "Changes not staged for commit:\n", 31) = 31
+1700837990.672968 write(1, "  (use \"git add <file>...\" to up"..., 61) = 61
+1700837990.673112 write(1, "  (use \"git restore <file>...\" t"..., 72) = 72
+1700837990.673365 write(1, "\t\33[31mmodified:   post.md\33[m\n", 29) = 29
+1700837990.673598 write(1, "\n", 1)     = 1
+1700837990.673838 write(1, "no changes added to commit (use "..., 66) = 66
+1700837990.674044 newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x2), ...}, AT_EMPTY_PATH) = 0
+1700837990.674254 close(1)              = 0
+1700837990.674439 getpid()              = 368491
+1700837990.674623 exit_group(0)         = ?
+1700837990.675045 +++ exited with 0 +++

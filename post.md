@@ -36,13 +36,429 @@ Before writing my own benchmarks, I want to validate that "different stuff is go
 
 I've occasionally used the `strace` tool to look at this kind of thing, which records every system call. More recently I've used `perf` for a similar task ([Julia Evans](https://jvns.ca/blog/2015/03/30/seeing-system-calls-with-perf-instead-of-strace/) on the subject); it seems like `perf` might be using a more-performant mechanism for recording.
 
-Let's see what they both have to say about:
+Let's see what they both have to say about a few programs. Note that I'm not (yet) trying to get reproducible results or timings- just a general idea about what's going on in each of these.
 
-- `hg` (Python)
-	- Note, `chg` to get around the launch-time problem!
-- `git`(C)
-- `rg` (Rust)
-- `tailscale` (Golang)
+I'll start by making sure the tools, and programs, are installed:
+
+```shell
+∵ sudo apt-get install strace linux-perf mercurial ripgrep git
+```
+
+(Tailscale has some additional steps; see their site.)
+
+TODO: Tailscale link above
+
+<details>
+<summary>`hg status` (Python) reads the local `.hg` directory after about half a second. The intermediate time is mostly spent loading Python modules, though it includes loading a couple C libraries as well.</summary>
+
+I ran `hg` in my `git` directory:
+
+```shell
+∵ strace -ttt -o static/hg.strace.txt hg status
+abort: no repository found in '/home/cceckman/r/github.com/cceckman/startup-showdown' (.hg not found)
+∴ 255 startup-showdown:main…startup-showdown
+∵ sudo perf trace -o static/hg.perf hg status
+abort: no repository found in '/home/cceckman/r/github.com/cceckman/startup-showdown' (.hg not found)
+∴ 0 startup-showdown:main…startup-showdown
+```
+
+Here's the [`strace`](static/hg.strace.txt) and [`perf`](static/hg.perf) files.
+
+The `strace` output is a little more useful - it has the filenames resolved, instead of just pointers.
+
+We start by pulling in the dynamic loader:
+
+```
+1700837164.739205 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+```
+
+And loading (reading, mapping) a number of libraries- selected lines:
+
+```
+1700837164.741083 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+...
+1700837164.742425 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libexpat.so.1", O_RDONLY|O_CLOEXEC) = 3
+...
+1700837164.743794 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+```
+
+There's some interesting calls once `libc` is loaded: `set_tid_address`, `rseq`, `getrandom`... and opening `locale-archive` and `gconv-modules.cache` files. It's not obvious to me which of these are `python` setup calls, and which of these are `libc`.
+
+The first that's clearly `python` is:
+
+```
+1700837164.781304 newfstatat(AT_FDCWD, "/usr/bin/pyvenv.cfg", 0x7ffcaa4fc780, 0) = -1 ENOENT (No such file or directory)
+```
+
+about ~17 ms after the `execve` call.
+
+There's a _lot_ of `newfsstatat` calls for things that look like Python system files - mostly which don't exist. Installing signal handlers with `rt_sigaction`, more looking for customizations... then finally we get to Mercurial proper:
+
+```
+1700837164.793901 newfstatat(AT_FDCWD, "/usr/bin/hg", {st_mode=S_IFREG|0755, st_size=1705, ...}, 0) = 0
+1700837164.794048 openat(AT_FDCWD, "/usr/bin/hg", O_RDONLY|O_CLOEXEC) = 3
+```
+
+That's >100ms of Python startup, before we do anything for `hg` itself.
+
+Mercurial (quite reasonably) loads a bunch of Python modules from various paths, e.g.:
+
+```
+1700837164.809683 newfstatat(AT_FDCWD, "/usr/bin", {st_mode=S_IFDIR|0755, st_size=36864, ...}, 0) = 0
+1700837164.809860 newfstatat(AT_FDCWD, "/usr/lib/python3.11", {st_mode=S_IFDIR|0755, st_size=12288, ...}, 0) = 0
+1700837164.810015 newfstatat(AT_FDCWD, "/usr/lib/python3.11/keyword.py", {st_mode=S_IFREG|0644, st_size=1061, ...}, 0) = 0
+1700837164.810187 newfstatat(AT_FDCWD, "/usr/lib/python3.11/keyword.py", {st_mode=S_IFREG|0644, st_size=1061, ...}, 0) = 0
+1700837164.810322 openat(AT_FDCWD, "/usr/lib/python3.11/__pycache__/keyword.cpython-311.pyc", O_RDONLY|O_CLOEXEC) = 3
+1700837164.810441 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1068, ...}, AT_EMPTY_PATH) = 0
+1
+```
+
+I note that it stats the `<module>.py` file, then opens `__pycache__/<module>.cpython-311.pyc` - automatically picking up the cached bytecode.
+
+Skipping ahead: what is Mercurial doing specific to this invocation? Searching
+for my username might give a hint.
+
+```
+1700837165.134460 openat(AT_FDCWD, "/home/cceckman/.hgrc", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+1700837165.134598 openat(AT_FDCWD, "/home/cceckman/.config/hg/hgrc", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+```
+
+is still more or less Mercurial startup. After that I see a bunch of loading
+_Mercurial-specific_ modules:
+
+```
+1700837165.148398 newfstatat(AT_FDCWD, "/usr/lib/python3/dist-packages/mercurial/rewriteutil.py", {st_mode=S_IFREG|0644, st_size=8708, ...}, 0) = 0
+```
+
+Eventually we get down to the invocation we want:
+
+```
+1700837165.219930 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 1024) = 54
+1700837165.220081 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.hg", 0x7ffcaa4fd090, 0) = -1 ENOENT (No such file or directory)
+1700837165.220242 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/.hg", 0x7ffcaa4fd090, 0) = -1 ENOENT (No such file or directory)
+1700837165.220391 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/.hg", 0x7ffcaa4fd090, 0) = -1 ENOENT (No such file or directory)
+1700837165.220541 newfstatat(AT_FDCWD, "/home/cceckman/r/.hg", 0x7ffcaa4fd0e0, 0) = -1 ENOENT (No such file or directory)
+1700837165.220704 newfstatat(AT_FDCWD, "/home/cceckman/.hg", 0x7ffcaa4fd0e0, 0) = -1 ENOENT (No such file or directory)
+1700837165.220852 newfstatat(AT_FDCWD, "/home/.hg", 0x7ffcaa4fd0e0, 0) = -1 ENOENT (No such file or directory)
+1700837165.220999 newfstatat(AT_FDCWD, "/.hg", 0x7ffcaa4fd0e0, 0) = -1 ENOENT (No such file or directory)
+```
+
+This is where the program is doing "what we asked", looking for the current Mercurial state.
+
+Without having optimized or controlled for anything:
+
+$$
+1700837165.219930 - 1700837164.737866 = 0.482...
+$$
+
+not quite half a second of startup time.
+
+Mercurial in particular has a helper program called `chg`, which acts as a daemon
+to help avoid some of these costs. But... that is a whole 'nother program to maintain.
+
+TODO: link to `chg`
+
+</details>
+
+<details>
+<summary>`git status` (C) reads the `.git` directory after about 10ms.</summary>
+
+```
+∵ strace -ttt -o static/git.strace.txt git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   post.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+∴ 0 startup-showdown:main…startup-showdown
+∵ sudo perf trace -o static/git.perf git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   post.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .redo/
+        static/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+∴ 0 startup-showdown:main…startup-showdown
+```
+
+Oops - guess I need to stage some stuff.
+
+We start off, as always, with the `execve` call; and the typical-C `ld.so` dance:
+
+```
+1700837990.631952 execve("/usr/bin/git", ["git", "status"], 0x7ffe560697a0 /* 31 vars */) = 0
+1700837990.632596 brk(NULL)             = 0x55d7ed978000
+1700837990.632790 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7facbabb9000
+1700837990.632950 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.633221 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+```
+
+Like `python3`, `git` loads `libz` befor `libc`:
+
+```
+1700837990.634708 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+...
+1700837990.635711 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+```
+
+And a lot of the following calls look common with the `hg` trace, up to:
+
+```
+1700837990.638502 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+1700837990.638675 munmap(0x7facbabb1000, 31538) = 0
+```
+
+After that, the traces start diverging; this might tell us where the static-init
+phase of the binary starts (the stuff that happens before `main`).
+
+We get to application-specific I/O pretty quickly- without, apparently, loading e.g. `libgit` or similar:
+
+```
+1700837990.640672 access("/etc/gitconfig", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.640839 access("/home/cceckman/.config/git/config", R_OK) = -1 ENOENT (No such file or directory)
+1700837990.640966 access("/home/cceckman/.gitconfig", R_OK) = 0
+1700837990.641092 openat(AT_FDCWD, "/home/cceckman/.gitconfig", O_RDONLY) = 3
+```
+
+And after reading that, work on the actual question we've asked:
+
+```
+1700837990.641797 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.641917 getcwd("/home/cceckman/r/github.com/cceckman/startup-showdown", 129) = 54
+1700837990.642024 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+1700837990.642143 newfstatat(AT_FDCWD, "/home/cceckman/r/github.com/cceckman/startup-showdown/.git", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+```
+
+Without any optimizations,
+
+$$
+1700837990.641797 - 1700837990.631952 = 0.0098...
+$$
+
+about 10 ms of startup.
+
+</details>
+
+
+<details>
+<summary>`rg` (Rust) loads more libraries than Git to begin with, but starts processing input after 22ms.</summary>
+
+```shell
+∵ echo hello | strace -ttt -o static/rg.strace.txt rg 'hello' -
+hello
+∴ 0 startup-showdown:main…startup-showdown
+∵ echo hello | sudo perf trace -o static/rg.perf rg 'hello' -
+hello
+∴ 0 startup-showdown:main…startup-showdown
+```
+
+Again, we're expecting to see `lib` in here, for a default Rust build. And we do, along with a number of other library loads:
+
+```
+1700838950.226057 execve("/usr/bin/rg", ["rg", "hello", "-"], 0x7fffef88f8b8 /* 31 vars */) = 0
+...
+1700838950.227165 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+1700838950.227484 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.228097 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.229301 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.230483 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.231729 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+```
+
+And again the `libc` startup sequence - reproduced here in (maybe?) its entirety:
+
+```
+1700838950.233244 close(3)              = 0
+1700838950.233400 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f9d57746000
+1700838950.233560 arch_prctl(ARCH_SET_FS, 0x7f9d57747100) = 0
+1700838950.233683 set_tid_address(0x7f9d577473d0) = 368718
+1700838950.233804 set_robust_list(0x7f9d577473e0, 24) = 0
+1700838950.233909 rseq(0x7f9d57747a20, 0x20, 0, 0x53053053) = 0
+1700838950.234103 mprotect(0x7f9d57916000, 16384, PROT_READ) = 0
+1700838950.234300 mprotect(0x7f9d57a06000, 4096, PROT_READ) = 0
+1700838950.234472 mprotect(0x7f9d57a26000, 4096, PROT_READ) = 0
+1700838950.234620 mprotect(0x7f9d57ac0000, 4096, PROT_READ) = 0
+1700838950.235167 mprotect(0x561ce7703000, 229376, PROT_READ) = 0
+1700838950.235343 mprotect(0x7f9d57afc000, 8192, PROT_READ) = 0
+1700838950.235523 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+1700838950.235720 munmap(0x7f9d57ac2000, 31538) = 0
+```
+
+There's a bunch of very interesting calls immediately after this.
+
+```
+1700838950.236024 poll([{fd=0, events=0}, {fd=1, events=0}, {fd=2, events=0}], 3, 0) = 1 ([{fd=0, revents=POLLHUP}])
+```
+
+is followed by various signal-handler setup; and a fair amount of introspection
+as to the runtime environment:
+
+```
+1700838950.237766 openat(AT_FDCWD, "/proc/self/maps", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.239070 close(3)              = 0
+1700838950.239210 sched_getaffinity(368718, 32, [0 1 2 3 4 5 6 7]) = 8
+...
+1700838950.240576 openat(AT_FDCWD, "/proc/self/cgroup", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.241174 openat(AT_FDCWD, "/proc/self/mountinfo", O_RDONLY|O_CLOEXEC) = 3
+...
+1700838950.241738 openat(AT_FDCWD, "/sys/fs/cgroup/user.slice/user-1000.slice/session-1317.scope/cpu.max", O_RDONLY|O_CLOEXEC) = 3
+```
+
+My guess is that ripgrep is asking for "get number of valid CPUs", to start up
+an appropriate number of worker threads for some purpose. That doesn't explain
+to me the `mountinfo` or memory `maps`...
+
+Shortly after this, we're definitely definitely in ripgrep's territory, checking
+`.gitconfig` -> `.gitignore` to know which files to avoid checking:
+
+```
+1700838950.246563 openat(AT_FDCWD, "/home/cceckman/.gitconfig", O_RDONLY|O_CLOEXEC) = 3
+...
+
+1700838950.247650 statx(AT_FDCWD, "/home/cceckman/.gitignore_global", AT_STATX_SYNC_AS_STAT, STATX_ALL, {stx_mask=STATX_ALL|STATX_MNT_ID, stx_attributes=0, stx_mode=S_IFREG|0644, stx_size=49, ...}) = 0
+```
+
+Of course, we've asked `rg` to just check `stdin`, so this isn't really necessary.
+
+But we can see it does do that job shortly:
+
+```
+1700838950.248298 close(3)              = 0
+1700838950.248478 brk(0x561ce8f46000)   = 0x561ce8f46000
+1700838950.248705 read(0, "hello\n", 8192) = 6
+
+```
+
+$$
+1700838950.248705 - 1700838950.226057 = 0.0226..
+$$
+
+About 22ms to load libraries, config files, and start processing input.
+
+</details>
+
+<details>
+<summary>`tailscale` (Golang)</summary>
+
+Now for the weird one - with no `libc`.
+
+TODO: I got this wrong the first time: need to invoke `strace` / `perf` to trace children as well, since Golang spins up many new threads _by default_. And need to carry that forward into the trace configuration for the microbenchmark. For strace that's `-f`
+
+```
+∵ strace -ttt -o static/tailscale.strace.txt tailscale status
+[ output elided ]
+
+# Health check:
+#     - Linux DNS config not ideal. /etc/resolv.conf overwritten. See https://tailscale.com/s/dns-fight
+∴ 0 startup-showdown:main…startup-showdown
+∵ sudo perf trace -o static/tailscale.perf tailscale status
+[ outut elided ]
+
+# Health check:
+#     - Linux DNS config not ideal. /etc/resolv.conf overwritten. See https://tailscale.com/s/dns-fight
+∴ 0 startup-showdown:main…startup-showdown
+
+```
+
+We time from `execve`:
+
+```
+1700839854.000781 execve("/usr/bin/tailscale", ["tailscale", "status"], 0x7ffe222b70c0 /* 31 vars */) = 0
+```
+
+But our first calls after that are very different:
+
+```
+1700839854.001429 arch_prctl(ARCH_SET_FS, 0xf00210) = 0
+1700839854.001699 sched_getaffinity(0, 8192, [0 1 2 3 4 5 6 7]) = 8
+1700839854.001959 openat(AT_FDCWD, "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size", O_RDONLY) = 3
+1700839854.002240 read(3, "2097152\n", 20) = 8
+1700839854.002435 close(3)              = 0
+```
+
+There's a similar `arch_prctl` call in the `libc` programs, but it occurs after loading `libc`.
+
+The following calls are a bunch of `mmap` and `madvise` calls- not files, just private memory- and then signal-handler attachments...for _all_ signals?
+
+```
+
+1700839854.009727 rt_sigaction(SIGHUP, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+...
+1700839854.022590 rt_sigaction(SIGRT_32, {sa_handler=0x46a940, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x46aa80}, NULL, 8) = 0
+```
+
+Then we have 
+
+```
+1700839854.022737 rt_sigprocmask(SIG_SETMASK, ~[], [], 8) = 0
+1700839854.022886 clone(child_stack=0xc000070000, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS, tls=0xc00005e090) = 368970
+1700839854.023040 rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+1700839854.023151 --- SIGURG {si_signo=SIGURG, si_code=SI_TKILL, si_pid=368969, si_uid=1000} ---
+```
+
+which means I did the wrong thing in my `strace` invocation.
+
+That `clone` call is, I think, saying that Golang is _immediately_ spawning off
+another thread; before any I/O. This might be "application", in that it might be
+when the Tailscale CLI first asks for a new goroutine... but from what I know of
+the Golang runtime, I think it spins off the OS threads = number of CPUs
+immediately on startup.
+
+My guess is this routine is showing us:
+
+- `sched_getaffinity` to get the number of CPUs
+- `mmap` to set up stacks and data for each of the new threads
+- launch of a new thread... but I didn't ask `strace` to trace children, so any calls from that thread are lost. Hrm.
+
+I might need to rerun this. But continuing the read here:
+
+There's a bunch of `SIGURG` handles, then another thread launch:
+
+```
+1700839854.027387 --- SIGURG {si_signo=SIGURG, si_code=SI_TKILL, si_pid=368969, si_uid=1000} ---
+1700839854.027446 rt_sigreturn({mask=[]}) = 0
+1700839854.027556 --- SIGURG {si_signo=SIGURG, si_code=SI_TKILL, si_pid=368969, si_uid=1000} ---
+1700839854.027616 rt_sigreturn({mask=[]}) = 0
+1700839854.027745 rt_sigprocmask(SIG_SETMASK, ~[], [], 8) = 0
+1700839854.027930 clone(child_stack=0xc00006c000, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS, tls=0xc00005e490) = 368971
+```
+
+There's a couple more places of bouncing between `futex` and `clone`. Then
+a set of calls that look like they're looking at the current system:
+
+```
+1700839854.031952 openat(AT_FDCWD, "/proc/sys/kernel/syno_hw_version", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+1700839854.032212 openat(AT_FDCWD, "/sys/firmware/devicetree/base/model", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+1700839854.032553 newfstatat(AT_FDCWD, "/usr/syno", 0xc0001acd38, 0) = -1 ENOENT (No such file or directory)
+1700839854.032681 newfstatat(AT_FDCWD, "/usr/local/bin/freenas-debug", 0xc0001ace08, 0) = -1 ENOENT (No such file or directory)
+1700839854.032793 newfstatat(AT_FDCWD, "/etc/debian_version", {st_mode=S_IFREG|0644, st_size=5, ...}, 0) = 0
+1700839854.033162 readlinkat(AT_FDCWD, "/proc/self/exe", "/usr/bin/tailscale", 128) = 18
+1700839854.033318 newfstatat(AT_FDCWD, "/var/run", {st_mode=S_IFDIR|0755, st_size=740, ...}, 0) = 0
+```
+
+This looks like user code - `tailscale` trying to figure out the platform it's running on. We're *definitely* executing Tailscale's code when the CLI connects to the daemon:
+
+```
+1700839854.033712 futex(0xc000090148, FUTEX_WAKE_PRIVATE, 1) = 1
+1700839854.033944 socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 3
+1700839854.034105 connect(3, {sa_family=AF_UNIX, sun_path="/var/run/tailscale/tailscaled.sock"}, 37) = 0
+```
+
+</details>
 
 We'll look for the first thing that looks like "program work", and the time & count of system calls that happen before that.
 ### Considering tradeoffs
