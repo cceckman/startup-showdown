@@ -8,6 +8,13 @@ mkdir -p "$(dirname $3)"
 
 TRACEFILE="$(mktemp -u)"
 
+# TODO: Controls and statistics.
+# - Flushed page cache
+# - Happy page cache
+# - Multiple samples
+# - CPU power controls (see if it matters?)
+# - environment noise
+
 sudo \
   perf record \
   -o "$TRACEFILE" \
