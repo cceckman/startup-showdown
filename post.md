@@ -765,3 +765,35 @@ TODO: Generally, adding other dimensions of the analysis; trying to answer more 
 	- One async worker per task
 		- One goroutine per task in Golang
 		- One future per task in Rust
+
+## Under investigation
+
+How to trace? I want to _only_ catch `execve` and `write(1)`
+
+- `strace`, IIUC, bounces all the calls through the `ptrace` system call- i.e.
+	bounces them through the parent process. That's performance-impacting
+	(or magnifying), to different degrees for different languages.
+- `perf` seems to treat events a statistical, sampling counters at various
+	points?
+	If so, how is it getting all the arguments etc. when in `perf trace` mode?
+- `ftrace`? Need more investigation - it's a kernel capability...based on a
+	ring buffer of events.
+
+	> \[Brendan Gregg's] [perf-tools](https://github.com/brendangregg/perf-tools) collection uses both perf_events and ftrace as needed
+
+	but it seems like he refers to the `perf` tools as `perf_events`...
+- BPF hook into...a security something something? 
+
+A decent pairing:
+
+```
+TARGET=sut/1-dash/test.sh
+sudo perf record -o /tmp/trace -e syscalls:sys_exit_execve,syscalls:sys_enter_write $TARGET
+sudo chmod 0644 /tmp/trace
+perf script -F trace:time,event,sym,trace -i /tmp/trace
+```
+
+- `sudo perf record -o /tmp/trace -e syscalls:sys_exit_execve,syscalls:sys_enter_write sut/1-dash/test.sh`
+- `perf script -F trace:time,event,sym,trace -i /tmp/trace` to format output
+
+`perf`

@@ -27,13 +27,11 @@ digraph {
 }
 ```
 
-`runner/` contains the code for the test executor. `redo runner/all` to rebuild.
-
 `sut/` has the system-under-test code. Each subdirectory holds a distinct test
 case, with a `sut.txtpb` file describing it to the test executor.
 
 `tests/` is the output directory for the tests. `redo test/all` to run all
-tests. This automatically rebuilds the runner if needed.
+tests. This automatically rebuilds the test inputs if needed.
 
 `analysis` has the code for analyzing the test outputs to extract meaningful
 numbers. `redo analysis/all` rebuilds these tools.
