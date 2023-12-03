@@ -461,6 +461,7 @@ This looks like user code - `tailscale` trying to figure out the platform it's r
 </details>
 
 We'll look for the first thing that looks like "program work", and the time & count of system calls that happen before that.
+
 ### Considering tradeoffs
 This post is trying to poke at the Pareto frontier: how fast *can* a launch be? With what amount of trouble?
 
@@ -472,7 +473,10 @@ TODO:
 - I'm looking exclusively at Linux.
 	- Different OSes may have different characteristics and tradeoffs.
 	- "Use a POSIX compatibility layer", "Use your language's standard library" are all great things to do! I wouldn't actually want to use [raw assembly].
+
+
 ## Microbenchmark
+
 TODO: Want apples-to-apples comparisons. This won't be super realistic- I've [a "part 2" in mind]- but it should serve to get us some rough data, and set up a flow for something better.
 
 Example program is just "hello world". In a syscall trace, we can tell when we're in user code when we write the output channel; in the end-to-end code, we're using `times(2)`.
@@ -483,6 +487,7 @@ Input: each case is:
 - Execute command-line
 
 Procedure: for each case,
+
 1. Switch to a dedicated user, clear out a lot of the environment. Try to avoid measuring my `.profile` or `PATH` costs!
 2. Set CPU state:
 	1. CPU mask (?)
@@ -507,7 +512,22 @@ Procedure: for each case,
 
 Note that in this experiment, we're _not_ measuring build performance; in fact, we're penalizing `python` by getting rid of its bytecode cache. I really do care about the speed of the build-test-run cycle for tools- we're just not measuring it in _this_ experiment.
 
+TODO: I'm not sure `times` is going to be a sufficient measurement.
+
+>  Times for terminated children (and their descendants) are added in at the moment wait(2) or waitpid(2) returns their process ID.
+
+which means we're also measuring the time it takes for the parent to observe
+the child has terminated.
+
+Do we want to time instead:
+
+- Write to stdout? That's capturing startup, not shutdown, which is what we are looking for.
+	- Set up a zero-sized [`pipe`](https://man7.org/linux/man-pages/man2/pipe.2.html)?
+- Or maybe what we really want to do is parse the `strace` or `perf` results. Without too much difficulty, we should be able to pick out `execve` and `write(1)`...
+
+
 ### Test categories
+
 Below, I've split the programs into two batches.
 
 [Batch 1] are unoptimized "hello world" programs in:
