@@ -4,10 +4,13 @@ CSV-ize samples from startup-showdown.
 """
 
 import argparse
+import copy
 import csv
+import itertools
 import os
 import pathlib
 import re
+import subprocess
 import typing
 
 # On my system, `perf` is returning results in microseconds.
@@ -61,8 +64,26 @@ def enumerate_sources() -> typing.Generator[typing.Tuple[str, str, str], None, N
       for case in os.scandir(sut.path):
         yield (mode.name, sut.name, case.path)
 
+
+def redo_ifchange(files: typing.List[str]):
+  """Informs redo-ifchange of files used"""
+
+  # Unset MAKEFLAGS so redo-ifchange doesn't try to reauth to the jobserver.
+  # That's fine - it shouldn't be actually rebuilding these anyway.
+  newenv = copy.deepcopy(os.environ)
+  del newenv["MAKEFLAGS"]
+
+  # Don't put too many on a line - same as xargs.
+  # (This would be `batched` in 3.12, but Debian only has 3.11 so far)
+  while len(files) != 0:
+    nextlen = min(len(files), 10)
+    myfiles, files = files[:nextlen], files[nextlen:]
+    subprocess.run(["redo-ifchange"] + myfiles, check=True, env = newenv)
+
 def lines(outpath: pathlib.Path):
   """Writes CSV lines from input source files."""
+
+  files = []
 
   with outpath.open('w') as f:
     fields = ["mode", "sut", "latency", "path"]
@@ -71,6 +92,9 @@ def lines(outpath: pathlib.Path):
     for (mode, sut, path) in enumerate_sources():
       latency = get_latency(path)
       wr.writerow({"mode": mode, "sut": sut, "latency": latency, "path": path})
+      files.append(path)
+
+  redo_ifchange(files)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
