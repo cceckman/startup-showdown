@@ -2,5 +2,5 @@
 redo-always
 
 find . \
-  -not \( -name .gitignore -or -name '*.do' \) \
+  -not \( -name .gitignore -or -name '*.do' -or -name '*.py' \) \
   -delete
