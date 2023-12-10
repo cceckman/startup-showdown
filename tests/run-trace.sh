@@ -1,11 +1,15 @@
+#!/bin/sh
 
-SUT="$(basename "$(dirname "$1")")"
+set -eu
+
+# Run and trace a test binary.
+MODE="$1"
+SUT="$2"
+RUN="$3"
+
 SUT_PATH="$(pwd)/../sut/$SUT/test"
 
-redo-ifchange "$SUT_PATH"
-
 # TODO: Controls and statistics.
-# - Flushed page cache
 # - Happy page cache
 # - Multiple samples
 # - CPU power controls (see if it matters?)
@@ -13,7 +17,7 @@ redo-ifchange "$SUT_PATH"
 # - environment noise
 
 # This won't do much for libc, but that's fine
-if echo "$1" | grep -q "no_cache"
+if echo "$MODE" | grep -q "no_cache"
 then
   # sync filesystems
   sync
@@ -34,17 +38,19 @@ fi
 # we use them for computing latency.
 SYSCALL_EVENTS="syscalls:sys_exit_execve,syscalls:sys_enter_write"
 
-if echo "$1" | grep -q "all_syscall"
+if echo "$MODE" | grep -q "all_syscall"
 then
   # Add all syscalls: gives is more data too see what the program asked for.
-  SYSCALL_EVENTS="$SYSCALL_EVENTS,raw_syscalls:sys_enter,raw_syscalls:sys_exit"
+  SYSCALL_EVENTS="syscalls:*"
 fi
+
+OUT="${MODE}/${SUT}/${RUN}.trace"
 
 sudo \
   perf record \
-  -o "$3" \
+  -o "$OUT" \
   -e "$SYSCALL_EVENTS" \
   "$SUT_PATH" \
-  >/dev/null
-sudo chown "$(id -nu)":"$(id -ng)" "$3"
+  2>&1 >/dev/null
+sudo chown "$(id -nu)":"$(id -ng)" "$OUT"
 
