@@ -1,49 +1,21 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 """
-Collect statistics from startup-showdown test runs.
+CSV-ize samples from startup-showdown.
 """
 
 import argparse
-import typing
+import copy
+import importlib
+import itertools
 import os
 import pathlib
 import re
-import statistics
-import csv
+import subprocess
+import sys
+import typing
 
-class Stats():
-    """Statistics for a group of runs.
-
-    All runs should be consistent, i.e. a single system-under-test.
-    The test case is given by the name.
-    """
-
-    def __init__(self, name):
-        self.name = name
-        self.data = []
-
-        self.mean = 0.0
-        self.median = 0.0
-        self.min = 0.0
-        self.max = 10000000.0
-
-    def update(self, data : float):
-        self.data.append(data)
-
-    def _update_stats(self):
-        self.mean = statistics.mean(self.data)
-        self.median  = statistics.median(self.data)
-        self.min = min(self.data)
-        self.max = max(self.data)
-
-    def __str__(self):
-        self._update_stats()
-        return f"""SUT: {self.name}
-mean {self.mean}
-median {self.median}
-min {self.min}
-max {self.max}
-"""
+sys.path.append(".")
+Sample = importlib.import_module("sample").Sample
 
 # On my system, `perf` is returning results in microseconds.
 # We typically have 53 bits of precision in a Python float - from the
@@ -58,7 +30,7 @@ max {self.max}
 START = re.compile("^(\d+\.\d+).*sys_exit_exec")
 WRITE = re.compile("^(\d+\.\d+).*sys_enter_write.*fd: (0[xX])?0*1\D")
 
-def process_file(filepath: str) -> float:
+def get_latency(filepath: str) -> float:
     """Returns the elapsed time from the file.
 
     Args:
@@ -81,16 +53,31 @@ def process_file(filepath: str) -> float:
             return write - start
     raise Exception(f"found no timestamp match in {filepath}")
 
-def process(directory: pathlib.Path) -> Stats:
-    result = Stats(directory.name)
-    for f in os.listdir(directory):
-        elapsed = process_file(directory.joinpath(f))
-        result.update(elapsed)
-    return result
+def get_samples() -> typing.Generator[Sample, None, None]:
+  """Process all source files into Sample strucsts.
+
+  Yields:
+    Sample structs
+  """
+  for mode in os.scandir("."):
+    if not mode.is_dir():
+      continue
+    for sut in os.scandir(mode.path):
+      if not sut.is_dir():
+        continue
+      for case in os.scandir(sut.path):
+        latency = get_latency(case.path)
+        yield Sample(mode.name, sut.name, latency, case.path)
+
+def lines(outpath: pathlib.Path):
+  """Writes CSV lines from input source files."""
+
+  samples = list(get_samples())
+  Sample.csv_write(outpath, samples)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("directory")
+    parser.add_argument("output") # Output buffer
     args = parser.parse_args()
-    stats = process(pathlib.Path(args.directory))
-    print(stats)
+    lines(pathlib.Path(args.output))
+
