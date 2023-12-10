@@ -1,5 +1,5 @@
 
-redo-ifchange analysis/summary.col.txt tests/aggregate.col.txt
+redo-ifchange analysis/summary.md tests/aggregate.md
 
-cat >&2 analysis/summary.col.txt
+cat >&2 analysis/summary.md
 
