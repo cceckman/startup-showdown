@@ -1,4 +1,4 @@
 
 redo-always
-rm -f test.bin
+rm -f test
 
