@@ -27,4 +27,3 @@ do
   done
 done
 
-redo-ifchange aggregate.csv
