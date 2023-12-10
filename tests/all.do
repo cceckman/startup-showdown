@@ -11,7 +11,7 @@ do
 done \
   | xargs redo-ifchange
 
-for MODE in base nocache
+for MODE in base no_cache all_syscalls
 do
   for DIR in $(find ../sut -mindepth 1 -maxdepth 1 -type d | sort)
   do

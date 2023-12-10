@@ -15,7 +15,7 @@ TRACEFILE="$(mktemp -u)"
 # - environment noise
 
 # This won't do much for libc, but that's fine
-if echo "$1" | grep -q "nocache"
+if echo "$1" | grep -q "no_cache"
 then
   # sync filesystems
   sync
@@ -32,10 +32,22 @@ then
   # this system. If the parent system doesn't use those, then we won't see them!
 fi
 
+# We always want these syscall events;
+# we use them for computing latency.
+SYSCALL_EVENTS="syscalls:sys_exit_execve,syscalls:sys_enter_write"
+
+if echo "$1" | grep -q "all_syscall"
+then
+  # Add all syscalls: gives is more data too see what the program asked for.
+  SYSCALL_EVENTS="$SYSCALL_EVENTS,raw_syscalls:sys_enter,raw_syscalls:sys_exit"
+fi
+
+# We grab all syscall times for analysis
+
 sudo \
   perf record \
   -o "$TRACEFILE" \
-  -e syscalls:sys_exit_execve,syscalls:sys_enter_write \
+  -e "$SYSCALL_EVENTS" \
   "$SUT_PATH" \
   >/dev/null
 sudo chmod 0644 "$TRACEFILE"
