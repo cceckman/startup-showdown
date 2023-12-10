@@ -30,7 +30,7 @@ Sample = importlib.import_module("sample").Sample
 START = re.compile("^(\d+\.\d+).*sys_exit_exec")
 WRITE = re.compile("^(\d+\.\d+).*sys_enter_write.*fd: (0[xX])?0*1\D")
 
-def get_latency(filepath: str) -> float:
+def get_latency(filepath: pathlib.Path) -> float:
     """Returns the elapsed time from the file.
 
     Args:
@@ -66,8 +66,11 @@ def get_samples() -> typing.Generator[Sample, None, None]:
       if not sut.is_dir():
         continue
       for case in os.scandir(sut.path):
-        latency = get_latency(case.path)
-        yield Sample(mode.name, sut.name, latency, case.path)
+        path = pathlib.Path(case.path)
+        if path.suffix != ".stats":
+          continue
+        latency = get_latency(path)
+        yield Sample(mode.name, sut.name, latency, str(path))
 
 def lines(outpath: pathlib.Path):
   """Writes CSV lines from input source files."""
