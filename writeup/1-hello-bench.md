@@ -1,25 +1,40 @@
 # Startup Showdown
 
 cceckman  
-2023-11-21 and later
+2024-01-28 and later
 
 ## Introduction
 
-I use a lot of command-line tools. Other people's tools like `git`, `hg`, `rg`; my own [scripts](https://github.com/cceckman/Tilde/tree/main/scripts) to make certain tasks easier.
+I use a lot of command-line tools. Common tools like `git`, `sed`, `hg`, `rg`; my own [scripts](https://github.com/cceckman/Tilde/tree/main/scripts) to make certain tasks easier.
 
-Command-line tools can differ from other programs in that they are *especially* transient: they run for a short amount of time, possibly on very few inputs.
+Most of the time these programs are _transient_: they run, do their job, and
+exit, rather than hanging around (like a server does). Since starting up a
+program has some costs, I got curious:
 
-There's some conventional wisdom that starting up a process can be more expensive than whatever the process is doing. For instance, Wikipedia has a header for the ["useless use of `cat`"](https://en.wikipedia.org/wiki/Cat_(Unix)#Useless_use_of_cat) lint.[^wiki]
-
-[^wiki]: Mostly, this tells us about Wikipedia's authoring and editing community...
-
-I got curious:
-
-- How long does it take to start a process? Why?
+- How long does it take to start a new process? Why?
 - How do those startup costs compare across languages?
 
-This post describes a set of experiments to answer these questions.
+This post describes some experiments I ran to try to answer these questions.
+It's likely the first of several posts; I'll add links here as I finish them.
+
 ## What I know going in
+
+Starting a new process has several steps, coming from the several layers of
+abstraction in a modern system.
+
+1.  There's a cost in the parent process to launch a subprocess
+2.  The operating system spends some time setting up data structures for that process...
+3.  ...and spending time doing I/O to get the new program's content into memory
+4.  The process itself has some initialization, e.g. loading shared libraries or
+input files
+
+There's some "conventional wisdom" that this can be a significant contributor to a task's duration' For instance, Wikipedia has a header for the ["useless use of `cat`"](https://en.wikipedia.org/wiki/Cat_(Unix)#Useless_use_of_cat).[^wiki]
+
+[^wiki]: This also tells us something about who is writing and editing Wikipedia.
+
+The costs in (1) and (2) are, I think, largely based on _how_ the process is launched, 
+
+I wanted to explore (3) and (4): What are the costs imposed by a 
 
 There's a bunch of up-front costs to starting a process. Some of these are because of the operating system (specifically, the kernel): setting up page tables, tracking structures, copying memory around...
 
