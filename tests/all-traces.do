@@ -1,12 +1,14 @@
 
 set -eu
 
+redo-ifchange drop-caches
+
 # Back up the perf setting, first:
 echo >&2 "\
   I'm about to ask for sudo access for a few things:
   1)  Temporarily set kernel.perf_event_paranoid lower,
       so we can run traces without sudo
-  2)  Make the drop-caches script setuid root,
+  2)  Make the drop-caches program setuid root,
       so we can run the 'no cache' tests without sudo
   3)  (Permanently) make the tracing tree accessible to you, as a member of
       the 'tracing' group
@@ -21,8 +23,8 @@ cleanup() {
   set -x
   sudo sysctl -w kernel.perf_event_paranoid="$OLD_PERFCTL"
   # Don't even bother letting it be executable after we've run.
-  sudo chmod 00644 ./drop-caches.sh
-  sudo chown "$USER":"$USER" ./drop-caches.sh
+  sudo chmod 00644 ./drop-caches
+  sudo chown "$USER":"$USER" ./drop-caches
   set +x
 }
 SAVE_TRAPS=$(trap)
@@ -58,9 +60,10 @@ trap cleanup EXIT ABRT TERM INT QUIT
   # this is not currently sufficient. Use the workaround:
   sudo chgrp -R tracing /sys/kernel/tracing
 
-  sudo chown root:root ./drop-caches.sh
   # Mode: sticky UID+GID (6), user read+exec (5), same for group (5) and all (5)
-  sudo chmod 6555 ./drop-caches.sh
+  sudo chown root:root ./drop-caches
+  sudo chmod 6555 ./drop-caches
+  stat >&2 ./drop-caches
   eval "$SAVE_TRAPS"
   set +x
 )
@@ -81,7 +84,7 @@ redo-ifchange run-trace.sh
 
 echo >&2 "Starting sampling runs..."
 TARGETS="$(mktemp)"
-for MODE in base no_cache all_syscalls
+for MODE in base no_cache
 do
   for DIR in $(find ../sut -mindepth 1 -maxdepth 1 -type d | sort)
   do

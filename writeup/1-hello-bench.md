@@ -2,6 +2,7 @@
 
 author: "Charles Eckman <charles@cceckman.com>"
 date: 2024-02-25
+
 ---
 
 What's the baseline startup cost for programs in different languages?
@@ -45,7 +46,10 @@ The most obvious is a debugger like `gdb` or `lldb`, but there's also `strace`
 and `perf`.
 
 I'm still learning about all of these tools (there's a lot to learn!). I
-think for this case, we want to use **`perf` for timing information** and **strace for understanding**.
+think for this case, we want to use **`perf` for timing information** and
+**`strace` for understanding**.
+
+<!-- TODO : Extract this to a tangent, and run the numbers on timing -->
 
 ### `strace` and `ptrace`
 
@@ -181,16 +185,17 @@ We'll do two sets of runs for each program.
 
 -   One run will simulate a frequently / recently-used program: just run
     the program repeatedly.
+
 -   Another run will simulate an infrequently / not-recently-used program:
     [clear the page cache][page-cache] between runs.
 
-Then, it's "just" some processing and formatting to get data!
+Then it's "just" some processing and
 
 [page-cache]: <!-- TODO explain -->
 
 ### Subjects
 
-I've written this up for 8 cases, so far:
+I've written up 8 "hello" programs:
 
 1.  Shell script
     1.  `#!/usr/bin/dash`, the [Debian Alquist Shell](https://wiki.archlinux.org/title/Dash), designed to be a minimal POSIX-compliant shell

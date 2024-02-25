@@ -23,7 +23,7 @@ then
   sync
   # drop caches: page cache (file contents) and filesystem caches
   # (directory entries, inodes)
-  ./drop-caches.sh
+  ./drop-caches
   # The above will simulate "a command we haven't used in a while", though
   # stuff that is commonly used by other utilities will arrive back in quickly.
   #
