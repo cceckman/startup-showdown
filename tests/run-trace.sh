@@ -23,7 +23,7 @@ then
   sync
   # drop caches: page cache (file contents) and filesystem caches
   # (directory entries, inodes)
-  echo 3 | sudo tee /proc/sys/vm/drop_caches >/dev/null
+  ./drop-caches.sh
   # The above will simulate "a command we haven't used in a while", though
   # stuff that is commonly used by other utilities will arrive back in quickly.
   #
@@ -46,11 +46,10 @@ fi
 
 OUT="${MODE}/${SUT}/${RUN}.trace"
 
-sudo \
-  perf record \
-  -o "$OUT" \
-  -e "$SYSCALL_EVENTS" \
-  "$SUT_PATH" \
-  2>&1 >/dev/null
-sudo chown "$(id -nu)":"$(id -ng)" "$OUT"
+perf record \
+  --output "$OUT" \
+  --event  "$SYSCALL_EVENTS" \
+  "$SUT_PATH"
+
+
 
