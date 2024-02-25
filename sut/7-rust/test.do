@@ -1,5 +1,5 @@
 
-find src/ | xargs redo-ifchange
+find src/ -type f | xargs redo-ifchange
 redo-ifchange Cargo.toml
 
 cargo build

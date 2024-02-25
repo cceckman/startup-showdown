@@ -1,4 +1,7 @@
 
-rm -rf __pycache__
-rm -rf *.csv *.md
+redo-always
+
+find . \
+  -not \( -name .gitignore -or -name '*.do' -or -name '*.py' -or -name '*.sh' \) \
+  -delete
 

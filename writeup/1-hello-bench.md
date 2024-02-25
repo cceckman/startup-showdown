@@ -8,7 +8,7 @@ What's the baseline startup cost for programs in different languages?
 To kick off the [startup showdown](0-outline.md), let's write "hello world"
 in different ways, and see what program(s) get to their output first.
 
----
+## What comes before "Hello"? {#intro}
 
 The classic <!-- TODO: Where did hello, world come from? --> "hello world"
 program is the first you'll see in a lot of languages. As it turns out, it's
@@ -44,14 +44,8 @@ There's a bunch of different tools that can help us look at system calls!
 The most obvious is a debugger like `gdb` or `lldb`, but there's also `strace`
 and `perf`.
 
-What should we use?
-
-I'll go over my thinking here, but quick unsolicited plug: Julia Evans' [blog][jvns] and [Wizard Zines][wizard-zines] have helped me understand what these tools do and
-how to use them!
-
-[jvns]: https://jvns.ca/
-[wizard-zines]: https://wizardzines.com
-
+I'm still learning about all of these tools (there's a lot to learn!). I
+think for this case, we want to use **`perf` for timing information** and **strace for understanding**.
 
 ### `strace` and `ptrace`
 
@@ -92,44 +86,59 @@ ptrace(PTRACE_GET_SYSCALL_INFO, 55679, 88, {op=PTRACE_SYSCALL_INFO_NONE, arch=AU
 ptrace(PTRACE_SYSCALL, 55679, NULL, 0)  = 0
 ```
 
-On my system, `man 2 ptrace` says:
+What's `ptrace`?  On my system, `man 2 ptrace` provides a decent summary at the top:
 
 > The **ptrace()** system call provides a means by which one process (the "tracer") may observe and control the execution of another process (the "tracee"), and examine and change the tracee's memory and registers. It is primarily used to implement breakpoint debugging and system call tracing.
 
-That _sounds_ like what we want! But...maybe not.
+"system call tracing" is what we're looking for- but I'm not sure a `ptrace`-based tool is quite what we want.
 
-I've used `ptrace` before- a fun little project replacing the Linux system call
-ABI with a non-Linux one. The way `ptrace` works is:
+I've used `ptrace` directly before, for doing something a little like [Wine]:
+running a program "not for Linux" under Linux, by intercepting all system calls.
+The way `ptrace` works is:
 
 1.  Tracer "attaches" to tracee
-2.  When tracee makes a system call or receives a [signal], the kernel stops
-    the tracee, and unblocks the tracer.
-3.  The tracer can poke at the tracee's memory or registers, and replace or
-    bypass the system call / signal on the tracee's behalf.
+2.  Whenever the tracee makes a system call or receives a [signal], the kernel
+    stops the tracee and switches to the tracer.
+3.  Then the tracer can poke at the tracee's memory or registers. The tracer can
+    replace or bypass the system call / signal on the tracee's behalf.
+4.  Once the tracer is done with "whatever", it tells the kernel how to
+    continue, which may allow the tracee to resume.
 
+[Wine]: https://www.winehq.org/
 [signal]: <!-- TOOD -->
 
-This is **great for understanding**! `strace` tells us things like the values
-of strings - what we want and need to understand what the system call is doing.
-Again, I'll point to [Julia Evans](https://jvns.ca/blog/2021/04/03/what-problems-do-people-solve-with-strace/) for "what problems can `strace` help with".
+This is **great for understanding**! `strace` tells us things like
+"the path passed to this `open` call" - what we need to understand what the
+system call is doing. Julia Evans has a [nice roundup](https://jvns.ca/blog/2021/04/03/what-problems-do-people-solve-with-strace/)
+of problems that `strace` can solve!
 
-But this **changes the performance of the program**. We aren't seeing how long
-it takes for the tracee to complete - we're also seeing how long the tracer
-takes.
+But this kind of tracing **changes the performance of the program**. We aren't
+seeing how long it takes for the tracee to complete - we're also seeing how long
+the tracer takes to say "go ahead".
 
 What other options do we have?
 
 ### `perf`
 
-I learned a lot about `perf` from [this zine](https://wizardzines.com/zines/perf/)!
+I learned a lot about `perf` from [this zine](https://wizardzines.com/zines/perf/),
+and there's more info at [Brendan Gregg's site](https://www.brendangregg.com/perf.html).
 
 The Linux kernel has a whole system for different kinds of performance
-monitoring- [profiling, tracing, and counting][kinds]. When enabled, the kernel
-will log when certain events occur into a ring buffer. **This is fast**, so it
-won't do much to change the performance characteristics of the binary under
-test.
+monitoring- [profiling, tracing, and counting][kinds]; there's a useful tool
+that interacts with it called `perf`. One of the events (event types) that can
+be traced is system calls!
 
-The drawback is that `perf` doesn't capture process-level details:
+When enabled, the kernel will log system calls into an in-memory buffer,
+then the `perf` (or other) program can read them out. Unlike `strace`, the
+"tracer" sees the system call after the fact- the kernel doesn't wait until the
+event is seen by the tracer to service it. This means **`perf trace` has very
+low performance cost** compared to `ptrace`- there's no waiting for another
+user program.
+
+(At least, in theory - I haven't measured these!)
+
+The drawback is that `perf` doesn't capture process-level details of the system
+calls. Look at what `strace` and `perf` show for a shell running `echo hi`:
 
 ```shell
 ∵ strace sh -c 'echo hi >/dev/null' 2>&1 | grep write
@@ -138,27 +147,65 @@ write(1, "hi\n", 3)                     = 3
      0.294 ( 0.001 ms): sh/56499 write(fd: 1, buf: 0x55808bc98780, count: 3)                           = 3
 ```
 
-So (in my opinion) it's less good for **understanding what a program is doing**.
+`strace` has shown us the string, while `perf` has just recorded the pointer.
 
+In my opinion- at least, without additional configuration- `perf` will be less
+good for **understanding what a program is doing**, e.g. for debugging.
 
 [kinds]: <!-- TODO - say more about different kinds of collection. jvns' zine calls out that _events_ mean _profiling_ is not done, which I learned today -->
 
-### perf for times, strace for meaning?
+## Procedure
 
-Both of these tools can be useful!
+We'll make "a hello world program" in a bunch of different languages. For this
+experiment, we're going to say "a hello world program" is:
 
--   We can use `perf` to generate timings
--   We can use `strace` to work out what happened
+-   A file
+-   Executable by my Linux install (`+x` and in a format Linux understands)
+-   That prints the string `Hello, world!\n` to its output
 
-For now, we'll stick with `perf`- just getting the baseline measurements.
+This lines up with my [original question](0-outline.md#original)- we're going to
+invoke every one as `./test`, regardless of language.
 
-<!-- TODO: add link -->
+To time the program, we'll run it under `perf record`. We can look at the
+time from [steps (1) from (4)](#intro) by filtering down to the right system
+calls, and write to a file for later analysis:
 
-## The programs
+```
+perf record \
+    --output="/tmp/perf.out" \
+    --event="syscalls:sys_exit_execve,syscalls:sys_enter_write" \
+    ./my-test-binary
+```
 
+We'll do two sets of runs for each program.
 
+-   One run will simulate a frequently / recently-used program: just run
+    the program repeatedly.
+-   Another run will simulate an infrequently / not-recently-used program:
+    [clear the page cache][page-cache] between runs.
+
+Then, it's "just" some processing and formatting to get data!
+
+[page-cache]: <!-- TODO explain -->
+
+### Subjects
+
+I've written this up for 8 cases, so far:
+
+1.  Shell script
+    1.  `#!/usr/bin/dash`, the [Debian Alquist Shell](https://wiki.archlinux.org/title/Dash), designed to be a minimal POSIX-compliant shell
+    2.  `#!/usr/bin/bash`, the Bourne Again Shell, a common default shell
+    3.  `#!/usr/bin/zsh`, the Z Shell, the shell I use
+2.  Python
+3.  C-like: compiled to machine code, backed by `libc`
+    1.  C
+    2.  C++
+    3.  Rust
+4.  Golang (...which does not depend on `libc` by default)
+
+All programs are built an run in "as default a manner" as possible- e.g. without
+(non-default) optimizations applied, without additional link flags, etc.
 
 ## The results
-
 
 

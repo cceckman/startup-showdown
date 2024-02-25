@@ -1,2 +1,6 @@
 
 .redo/
+**/*.did
+**/*.did.tmp
+**/.do_built.dir/**
+**/.do_built
