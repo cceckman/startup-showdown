@@ -10,7 +10,7 @@ echo >&2 "\
       so we can run traces without sudo
   2)  Make the drop-caches program setuid root,
       so we can run the 'no cache' tests without sudo
-  3)  (Permanently) make the tracing tree accessible to you, as a member of
+  3)  (Temporarily) make the tracing tree accessible to you, as a member of
       the 'tracing' group
 
   I'll try to restore these when done - please approve!
@@ -22,6 +22,7 @@ OLD_PERFCTL="$(cat /proc/sys/kernel/perf_event_paranoid)"
 cleanup() {
   set -x
   sudo sysctl -w kernel.perf_event_paranoid="$OLD_PERFCTL"
+  sudo mount -o remount,mode=700 /sys/kernel/tracing/
   # Don't even bother letting it be executable after we've run.
   sudo chmod 00644 ./drop-caches
   sudo chown "$USER":"$USER" ./drop-caches
@@ -55,7 +56,7 @@ trap cleanup EXIT ABRT TERM INT QUIT
   set -x
   sudo sysctl -w kernel.perf_event_paranoid=-1
   # The `perf` tool recommends:
-  #   sudo mount -o remount,mode=755 /sys/kernel/tracing/
+  sudo mount -o remount,mode=755 /sys/kernel/tracing/
   # But per https://lore.kernel.org/all/2315137.Eos4xDj3du@milian-workstation/T/
   # this is not currently sufficient. Use the workaround:
   sudo chgrp -R tracing /sys/kernel/tracing
