@@ -67,7 +67,7 @@ def get_samples() -> typing.Generator[Sample, None, None]:
         continue
       for case in os.scandir(sut.path):
         path = pathlib.Path(case.path)
-        if path.suffix != ".trace.txt":
+        if path.suffixes != [".trace", ".txt"]:
           continue
         latency = get_latency(path)
         yield Sample(mode.name, sut.name, latency, str(path))

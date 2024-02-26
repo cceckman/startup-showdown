@@ -9,10 +9,9 @@ then
 fi
 
 # Parse all the textfiles
-find . -name "*.trace" \
-  | sed -i 's/.trace$/.trace.txt/' \
+find . -name '*.trace' \
+  | sed 's/.trace$/.trace.txt/' \
   | xargs redo-ifchange
 
-find . -name '*.stats' | xargs redo-ifchange
-
 exec ../analysis/extract-metrics.py "$3"
+
