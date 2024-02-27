@@ -54,6 +54,11 @@ out via [email] or [Mastodon]!
     comes from sharing `libc.so` across the system. How much impact does a
     shared `libc` have? What about a static `libc`?
 
+    <!-- Some links of relevance:
+    https://msfjarvis.dev/posts/building-static-rust-binaries-for-linux/
+    https://doc.rust-lang.org/reference/linkage.html
+    -->
+
 3.  Languages like C, C++, and Rust aim to have "nothing below" them in terms of
     performance. What's the actual floor- the program with the smallest
     possible startup cost?
