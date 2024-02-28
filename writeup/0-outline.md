@@ -44,7 +44,7 @@ These posts are my mildly-polished notes about what I tried and what I learned.
 corrections - or any tips, clarifications, or other feedback - please do reach
 out via [email] or [Mastodon]!
 
-## Chapters
+## Sections
 
 1.  [Hello](1-hello-bench.md):
     As with anything in programming langauges, we'll start with "hello world".

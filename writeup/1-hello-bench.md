@@ -213,4 +213,114 @@ All programs are built an run in "as default a manner" as possible- e.g. without
 
 ## The results
 
+I'll present my results here, but **you can run this yourself!!**
+The code is in [repository](https://github.com/cceckman/startup-showdown),
+including the orchestrator. If you have the compilers/interpreters installed[^prereqs],
+you can download and run `./do` and get all the results yourself!
+
+(At least, as of commit 8fef593...)
+
+Aggregates of the data, with numeric values in seconds:
+
+mode     | sut      | mean   | median | min    | max
+---------|----------|--------|--------|--------|-----
+base     | 5-c      | 0.0005 | 0.0005 | 0.0005 | 0.0005
+base     | 1-dash   | 0.0006 | 0.0006 | 0.0006 | 0.0006
+base     | 7-rust   | 0.0007 | 0.0007 | 0.0007 | 0.0008
+base     | 2-bash   | 0.0013 | 0.0013 | 0.0013 | 0.0013
+base     | 6-cpp    | 0.0014 | 0.0014 | 0.0014 | 0.0014
+base     | 3-zsh    | 0.0018 | 0.0018 | 0.0018 | 0.0019
+base     | 8-golang | 0.0032 | 0.0032 | 0.0023 | 0.0041
+base     | 4-python | 0.0182 | 0.0141 | 0.014  | 0.0556
+no_cache | 5-c      | 0.0005 | 0.0005 | 0.0005 | 0.0005
+no_cache | 1-dash   | 0.0006 | 0.0006 | 0.0006 | 0.0009
+no_cache | 7-rust   | 0.0011 | 0.0011 | 0.001  | 0.0012
+no_cache | 6-cpp    | 0.0015 | 0.0015 | 0.0014 | 0.0016
+no_cache | 3-zsh    | 0.0026 | 0.0023 | 0.0023 | 0.0036
+no_cache | 2-bash   | 0.0038 | 0.003  | 0.0029 | 0.0086
+no_cache | 8-golang | 0.006  | 0.0057 | 0.0041 | 0.0099
+no_cache | 4-python | 0.0263 | 0.0224 | 0.0221 | 0.0562
+
+And the [raw data](1-hello-bench/aggregate.csv). This is in a Debian Linux VM
+on a server-type machine, but I'm not going to go into all the specs. If your results
+are different - that's interesting! Why is that?
+
+[^prereq]: The prerequisites are: `clang` and `clang++` for C and C++; `cargo` for Rust; `python3` for Python; `zsh`, `bash`, and `dash` for the shells.
+
+### What's wrong with this picture?
+
+I know there's some issues with this test setup that show up in the results,
+so let me call them out before going further.
+
+#### `no_cache` doesn't mean anything for `dash` {#dash}
+
+I'm making `no_cache` happen by writing to `/proc/sys/vm/drop_caches`
+(documentation provided by [the Linux kernel](https://www.kernel.org/doc/Documentation/sysctl/vm.txt)). This is meant to get rid of any files that might be hanging
+around in memory that aren't actively in use, simulating the case where
+"I haven't run this program in a while".
+
+This has some effect...but not a lot. At least for `dash`, we can explain why.
+
+The test runner I'm using is `./do`, the
+[minimal version](https://github.com/apenwarr/redo/tree/main/minimal)
+of Avery Pennarun's [redo](https://github.com/apenwarr/redo). Which uses the
+system shell:
+
+```
+$ head -1 ./do
+#!/usr/bin/env sh
+```
+
+So I'm pretty sure the `dash` program itself will still be in memory when we
+get to that test- it's re-invoked between when we dump the page cache and when
+we run the test program, so our test fixture gets the "load the interpreter"
+penalty.
+
+(Still - almost as fast as C? Nice job, `dash` authors!)
+
+#### `no_cache` doesn't mean _much_ for `libc` programs {#libc}
+
+Similarly: I think all of these (except Go) wind up using the same `libc.so`,
+which will esentially just live in my computer's memory. That's a chunk of code
+that I don't think `no_cache` wipes - so it gives Golang more of a penalty.
+
+### Observations
+
+**C is fast!** Not surprising, but it's useful to validate. [For future
+investigation](0-outline.md) - how much of that is because [`libc` is already in
+memory?](#libc)
+
+**`dash` is almost as fast as C!** Even given the [above](#dash) observation on
+residency, I'm still impressed that it can parse & complete the script before
+a compiled program.
+
+**Go is takes longer than I expected!** I'll want to analyze Go startup more in
+a future post <!-- TODO -->, but I was surprised by how long it took.
+This is a program with no `go` keyword, no networking...no stack escapes, I think?
+And no dynamic linking! But it still takes ~an order of magnitude longer.
+
+**All of these are very fast!** 60fps video is $ 1000 / 60 = 16.66... $
+milliseconds per frame; Python is the only one of these that would have trouble
+_starting a new process every frame_ and keeping up... at least, as far as
+the program itself goes.
+
+## Improvements and further experiments
+
+I had some next [outlined](0-outline.md), but thinking about these results
+has given me some new ones to think about!
+
+There's `perf` counters and events we could dig into to see _what_ is causing
+the penalties for these. For instance, the `no_cache` differences - which
+programs are loading more / less from disk?
+
+How much does a shared `libc` help? What would these look like with a static `libc`?
+
+This is the cost "in the process", after `exec`; what's the _kernel_'s
+contribution?
+
+## Let me know what you think!
+
+I'm planning on posting [more in this series](0-outline.md), so check back!
+
+If you have answers, more questions, or suggestions, [reach out](https://cceckman.com)!
 
