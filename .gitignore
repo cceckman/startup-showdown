@@ -4,3 +4,4 @@
 **/*.did.tmp
 **/.do_built.dir/**
 **/.do_built
+**/__pycache*/
