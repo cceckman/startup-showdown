@@ -51,8 +51,6 @@ out via [email] or [Mastodon].
 
     How long does a program in $language take to start writing to its standard output?
 
-<!--
-
 2.  **Linking and loading**: C and C-adjacent langauges are considered "fast";
     at least part of that comes from sharing `libc` across the system.
 
@@ -61,6 +59,8 @@ out via [email] or [Mastodon].
     Some links of relevance:
     https://msfjarvis.dev/posts/building-static-rust-binaries-for-linux/
     https://doc.rust-lang.org/reference/linkage.html
+
+<!--
 
 3.  **Finding the floor**: Languages like C, C++, and Rust aim to have
     "nothing below" them in terms of performance.
