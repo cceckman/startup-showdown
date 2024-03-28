@@ -1,10 +1,12 @@
 ---
 title: "Startup Showdown 1 - Hello"
 author: "Charles Eckman <charles@cceckman.com>"
-date: 2024-03-17
+date: 2024-03-28
+params:
+    math: true
 ---
 
-To kick off the [startup showdown](_index.md), let's write "hello world"
+To kick off the [startup showdown](..), let's write "hello world"
 in several languages, and see what program(s) get to their output first.
 
 ## What comes before "Hello"? {#intro}
@@ -166,7 +168,7 @@ experiment, we're going to say "a hello world program" is:
 -   Executable by my Linux install
 -   That prints the string `Hello, world!\n` to its standard output
 
-This lines up with my [original question](_index.md#original)- we're going to
+This lines up with my [original question](../#original)- we're going to
 invoke every one as `./test`, regardless of language.
 
 To time the program, we'll run it under `perf record`. We can look at the
@@ -303,7 +305,7 @@ that I don't think `no_cache` wipes - so it gives Golang more of a penalty.
 ### Observations
 
 **C is fast!** Not surprising, but it's useful to validate. [For future
-investigation](0-outline.md) - how much of that is because [`libc` is already in
+investigation](..) - how much of that is because [`libc` is already in
 memory?](#libc)
 
 **`dash` is almost as fast as C!** Even given the [above](#dash) observation on
@@ -314,14 +316,18 @@ a compiled program.
 a future post <!-- TODO -->, but I was surprised by how long it took on the
 server in particular. Related to core count, maybe?
 
-**All of these are very fast!** 60fps video is $ 1000 / 60 = 16.66... $
-milliseconds per frame; Python is the only one of these that would have trouble
+**All of these are very fast!** 60fps video is \\( 1000 / 60 = 16.66... \\)
+milliseconds per frame. Python is the only one of these that would have trouble
 _starting a new process every frame_ and keeping up... at least, as far as
-the program itself goes.
+the startup goes.
 
 ## Let me know what you think!
 
-I'm planning on posting [more in this series](_index.md), so check back!
+I'm planning on posting [more in this series](..), so check back!
 
 If you have answers, more questions, or suggestions, [reach out](https://cceckman.com)!
+
+## Acknowledgements
+
+Thanks to Meg and Claire for reviewing this.
 

@@ -47,7 +47,7 @@ out via [email] or [Mastodon].
 
 ## Sections
 
-1.  [**Hello**](1-hello-bench.md):
+1.  [**Hello**](1-hello-bench):
 
     How long does a program in $language take to start writing to its standard output?
 
@@ -85,3 +85,8 @@ out via [email] or [Mastodon].
 
 [email]: mailto:charles@cceckman.com
 [Mastodon]: https://hachyderm.io/@cceckman
+
+## Acknowledgements
+
+Thanks to Meg and Claire for reviewing this.
+
