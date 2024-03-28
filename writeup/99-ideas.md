@@ -1,3 +1,12 @@
+---
+title: "Startup Showdown - misc ideas"
+author: "Charles Eckman <charles@cceckman.com>"
+date: 2024-03-28
+draft: true
+---
+
+
+
 
 -   Measure `fork`.
 -   Write a custom launcher; make more syscalls directly

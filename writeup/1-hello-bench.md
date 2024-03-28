@@ -1,11 +1,10 @@
 ---
+title: "Startup Showdown 1 - Hello"
 author: "Charles Eckman <charles@cceckman.com>"
 date: 2024-03-17
 ---
 
-# Startup Showdown: Hello
-
-To kick off the [startup showdown](0-outline.md), let's write "hello world"
+To kick off the [startup showdown](_index.md), let's write "hello world"
 in several languages, and see what program(s) get to their output first.
 
 ## What comes before "Hello"? {#intro}
@@ -14,7 +13,7 @@ The classic <!-- TODO: Where did hello, world come from? --> "hello world"
 program is the first you'll see in a lot of languages. As it turns out, it's
 also a really nice way to measure how long a program takes to get to "our code"!
 
-I'll write more about how program startup works in [a later post](0-outline.md).
+I'll write more about how program startup works in a later post.
 <!-- TODO: Link to chapter 4 -->
 For now, I'm working with this model:
 
@@ -167,7 +166,7 @@ experiment, we're going to say "a hello world program" is:
 -   Executable by my Linux install
 -   That prints the string `Hello, world!\n` to its standard output
 
-This lines up with my [original question](0-outline.md#original)- we're going to
+This lines up with my [original question](_index.md#original)- we're going to
 invoke every one as `./test`, regardless of language.
 
 To time the program, we'll run it under `perf record`. We can look at the
@@ -322,7 +321,7 @@ the program itself goes.
 
 ## Let me know what you think!
 
-I'm planning on posting [more in this series](0-outline.md), so check back!
+I'm planning on posting [more in this series](_index.md), so check back!
 
 If you have answers, more questions, or suggestions, [reach out](https://cceckman.com)!
 

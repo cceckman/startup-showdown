@@ -1,9 +1,8 @@
 ---
+title: "Startup Showdown"
 author: "Charles Eckman <charles@cceckman.com>"
-date: 2024-02-25
+date: 2024-03-28
 ---
-
-# Startup Showdown
 
 When is a program's execution dominated by its startup cost?
 
