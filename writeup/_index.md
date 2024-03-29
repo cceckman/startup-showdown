@@ -33,7 +33,7 @@ I realized that behind this question, there's some cool things to learn and
 practice.
 
 -   Optimization: Where does the time go? How do we measure it?
--   Experimental design: What variables are/aren't isolated?
+-   Experimental design: What variables can be isolated?
 -   Languages and libraries: What's going on under the hood of the program?
 
 In the grand scheme, of course, I'm going to spend longer
@@ -88,5 +88,5 @@ out via [email] or [Mastodon].
 
 ## Acknowledgements
 
-Thanks to Meg and Claire for reviewing this.
+Thanks to Meg, Claire, and Nic for reviewing this.
 
