@@ -88,5 +88,5 @@ out via [email] or [Mastodon].
 
 ## Acknowledgements
 
-Thanks to Meg, Claire, and Nic for reviewing this.
+Thanks to Meg, Claire, Nic, and Aditya for reviewing this.
 
