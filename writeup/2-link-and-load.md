@@ -225,7 +225,7 @@ I think it's enough for us to say here:
 
 Linux starts `ld.linux.so` instead of our binary. `ld-linux.so` reads the target ELF, resolves any shared-library dependencies, and then starts the program we built.
 
-TODO: Didn't Drepper have a good guide to this?
+TODO: Didn't Drepper have a good guide to this? Yes: https://www.akkadia.org/drepper/dsohowto.pdf
 
 TODO: What's the difference between these two sections, `.rela.dyn` and `.rela.plt`? "imports" and "exports"? SysV document talks about Procedure Linkage Table: "Redirects position-independent function calls to absolute locations"...
 Global Offset Table. PLT is shared, uses GOT offsets -> executable text is still "shared"
