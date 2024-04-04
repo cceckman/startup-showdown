@@ -17,6 +17,7 @@ echo >&2 "\
 "
 
 OLD_PERFCTL="$(cat /proc/sys/kernel/perf_event_paranoid)"
+
 # Prepare the cleanup before making any changes, so we unwind the changes
 # if setting doesn't work:
 cleanup() {
@@ -26,10 +27,9 @@ cleanup() {
   # Don't even bother letting it be executable after we've run.
   sudo chmod 00644 ./drop-caches
   sudo chown "$USER":"$USER" ./drop-caches
-  set +x
+
 }
-SAVE_TRAPS=$(trap)
-trap cleanup EXIT ABRT TERM INT QUIT
+trap cleanup EXIT
 (
   if id -Gn | grep -qv tracing
   then
@@ -64,12 +64,10 @@ trap cleanup EXIT ABRT TERM INT QUIT
   # Mode: sticky UID+GID (6), user read+exec (5), same for group (5) and all (5)
   sudo chown root:root ./drop-caches
   sudo chmod 6555 ./drop-caches
-  stat >&2 ./drop-caches
-  eval "$SAVE_TRAPS"
   set +x
 )
 
-COUNT=10
+COUNT=1
 
 # We run all the tests from one file so they don't interfere with each other.
 
@@ -101,5 +99,5 @@ done
 echo >&2 "Completed sampling runs."
 
 # As an output, mark what we produced.
-find . -name "*.trace" | xargs sha256sum >"$3"
+find . -name "*.trace" | xargs sha256sum
 

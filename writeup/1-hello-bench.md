@@ -230,26 +230,28 @@ you can download and run `./do` and get all the results yourself!
 (At least, as of commit 8fef593...)
 
 Here's results ([raw data](1-hello-bench/server.csv)) from a server machine.
-This is a VM with 12 threads (6 cores):
+This is a VM with 10 threads:
 
-| mode     | sut      | mean   | median | min    | max    |
-| -------- | -------- | ------ | ------ | ------ | ------ |
-| base     | 5-c      | 0.0005 | 0.0005 | 0.0005 | 0.0005 |
-| base     | 1-dash   | 0.0006 | 0.0006 | 0.0006 | 0.0006 |
-| base     | 7-rust   | 0.0007 | 0.0007 | 0.0007 | 0.0008 |
-| base     | 2-bash   | 0.0013 | 0.0013 | 0.0013 | 0.0013 |
-| base     | 6-cpp    | 0.0014 | 0.0014 | 0.0014 | 0.0014 |
-| base     | 3-zsh    | 0.0018 | 0.0018 | 0.0018 | 0.0019 |
-| base     | 8-golang | 0.0032 | 0.0032 | 0.0023 | 0.0041 |
-| base     | 4-python | 0.0182 | 0.0141 | 0.014  | 0.0556 |
-| no_cache | 5-c      | 0.0005 | 0.0005 | 0.0005 | 0.0005 |
-| no_cache | 1-dash   | 0.0006 | 0.0006 | 0.0006 | 0.0009 |
-| no_cache | 7-rust   | 0.0011 | 0.0011 | 0.001  | 0.0012 |
-| no_cache | 6-cpp    | 0.0015 | 0.0015 | 0.0014 | 0.0016 |
-| no_cache | 3-zsh    | 0.0026 | 0.0023 | 0.0023 | 0.0036 |
-| no_cache | 2-bash   | 0.0038 | 0.003  | 0.0029 | 0.0086 |
-| no_cache | 8-golang | 0.006  | 0.0057 | 0.0041 | 0.0099 |
-| no_cache | 4-python | 0.0263 | 0.0224 | 0.0221 | 0.0562 |
+mode     | sut    | mean   | median | min    | max
+---------|--------|--------|--------|--------|-----
+base     | c      | 0.0005 | 0.0005 | 0.0005 | 0.0005
+base     | dash   | 0.0006 | 0.0006 | 0.0006 | 0.0007
+base     | rust   | 0.0008 | 0.0008 | 0.0007 | 0.0011
+base     | cpp    | 0.0014 | 0.0014 | 0.0014 | 0.0015
+base     | bash   | 0.0015 | 0.0014 | 0.0013 | 0.0026
+base     | zsh    | 0.0018 | 0.0018 | 0.0018 | 0.0019
+base     | golang | 0.0029 | 0.0027 | 0.0019 | 0.0054
+base     | python | 0.0154 | 0.0151 | 0.0143 | 0.0182
+base     | node   | 0.0423 | 0.0358 | 0.0328 | 0.098
+no_cache | c      | 0.0005 | 0.0005 | 0.0005 | 0.0005
+no_cache | dash   | 0.0006 | 0.0006 | 0.0006 | 0.0006
+no_cache | rust   | 0.0011 | 0.0011 | 0.0011 | 0.0013
+no_cache | cpp    | 0.0015 | 0.0015 | 0.0014 | 0.0016
+no_cache | zsh    | 0.0024 | 0.0024 | 0.0023 | 0.0033
+no_cache | bash   | 0.0033 | 0.0033 | 0.003  | 0.0042
+no_cache | golang | 0.0047 | 0.0043 | 0.0038 | 0.0056
+no_cache | python | 0.0186 | 0.0183 | 0.0178 | 0.0213
+no_cache | node   | 0.0856 | 0.0834 | 0.0809 | 0.1044
 
 And results ([raw data](1-hello-bench/laptop.csv)) from a laptop,
 running on battery, with 8 threads on 4 cores:
