@@ -4,5 +4,6 @@ redo \
   c/clean \
   cpp/clean \
   rust/clean \
-  golang/clean
+  golang/clean \
+  node/clean
 
