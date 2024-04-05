@@ -1,12 +1,8 @@
 ---
 title: "Startup Showdown 2 - Linking and Loading"
-draft: True
+draft: true
 author: "Charles Eckman <charles@cceckman.com>"
 date: 2024-03-17
-mainfont: DejaVuSerif.ttf
-sansfont: DejaVuSans.ttf
-monofont: DejaVuSansMono.ttf 
-mathfont: texgyredejavu-math.otf 
 ---
 
 In the [first group](../1-hello-bench) of [Startup Showdown](../)

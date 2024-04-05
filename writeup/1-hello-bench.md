@@ -1,11 +1,8 @@
 ---
 title: "Startup Showdown 1 - Hello"
 author: "Charles Eckman <charles@cceckman.com>"
-date: 2024-03-28
-mainfont: DejaVuSerif.ttf
-sansfont: DejaVuSans.ttf
-monofont: DejaVuSansMono.ttf 
-mathfont: texgyredejavu-math.otf 
+date: 2024-04-08
+draft: true
 ---
 
 To kick off the [startup showdown](..), let's write "hello world"
@@ -13,54 +10,55 @@ in several languages, and see what program(s) get to their output first.
 
 ## What comes before "Hello"? {#intro}
 
-The classic <!-- TODO: Where did hello, world come from? --> "hello world"
+The [classic][jargon] "hello world"
 program is the first you'll see in a lot of languages. As it turns out, it's
 also a really nice way to measure how long a program takes to get to "our code"!
 
+[jargon]: http://www.catb.org/jargon/html/H/hello-world.html
+
 I'll write more about how program startup works in a later post.
+For now, I'll say it's something like:
 <!-- TODO: Link to chapter 4 -->
 
-For now, I'm working with this model:
-
-1.  Some program makes a system call, "please start this other program"
-2.  The kernel loads the new program, and switches control to it
+1.  Some program makes an [`exec`][exec] call, "please start this other program".
+2.  The kernel loads the new program. When the kernel is done with this step,
+    the kernel switches control to the new program.
 3.  The _runtime_ for the new program's language starts, and prepares to run
-    the code we wrote
-4.  Our code runs!
+    the code we wrote.
+4.  Our code runs: a [`write`][write] call, "Hello, world!"
+
+[exec]: https://man7.org/linux/man-pages/man3/exec.3.html
+[write]: https://man7.org/linux/man-pages/man2/write.2.html
 
 The "cost" I want to measure is the combination of (2) and (3). Depending
-on what language we chose, and other choices we make in preparing the program,
+on language, and on other choices we make in preparing the program,
 those steps might be more or less costly.
 
-The neat thing about "hello, world" is that **steps 1 and 4 are really easy to see**.
-Both of them are system calls: step (1) is some flavor of `exec`, and
-step (4) is some flavor of `write`.
+The neat thing about "hello, world" is that **step 3 is really easy to see**.[^exec-enter]
+Since (2) and (4) are both system calls, we can use one of several mechanisms 
+to see the 2-to-3 and 3-to-4 transitions. 
+Subtract them, and we have "the language runtime's startup cost". Done!
 
-If we can get good times on (1) and (4), we can consider their difference to
-be "the startup time". Done!
+[^exec-enter]: It would be better still to time the entry to (2), i.e. when the system call enters. I think this is possible, but it requires more careful handling of the `perf` invocation and output. I'm working on that, and will update this series with more results.
 
 ## Peeking at system calls
 
-There's a few ways to look at system calls.
-For some things we might use a debugger like `gdb` or `lldb`, but there's also
-`strace` and `perf`.
+How do we see what system calls a procses makes, and when?
+
+For some things we might use a debugger like `gdb` or `lldb`,
+but I'm familiar with them as interactive tools more than batch operations.
+For "collect then analyze" flows, I'm more familiar with `strace`--
+and, after writing this article, `perf`.
 
 I'm still learning about all of these tools (there's a lot to learn!)
 I think for this case, I want to use **`perf` for timing information**.
-I'll use `strace` later to better understand what's going on.
-
-Why is that?
+I'll use `strace` later to better understand what each runtime is doing.
 
 <!-- TODO : Extract this to a tangent, and run the numbers on timing -->
 
 ### `strace` and `ptrace`
 
-`strace` runs a program and tells you all the system calls that the program
-makes, and the arguments to those system calls.
-
-I've used this in the past when debugging unknown programs, or to better
-understand how a program interacts with the system without wanting to debug
-the program itself.
+`strace` runs a program, the "tracee", and records all of the program's system calls along with their arguments.
 
 Here's the first few lines of `strace` tracing `true`:
 
@@ -73,7 +71,7 @@ access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
 ```
 
-And for more fun, here's a snippet of `strace` tracing `strace` tracing `true`:
+For more fun, here's a snippet of `strace` tracing `strace` tracing `true`:
 
 ```shell
 ∵ strace strace -o /dev/null true 2>&1 | head -100 | tail -5
@@ -84,8 +82,8 @@ ptrace(PTRACE_SYSCALL, 60084, NULL, 0)  = 0
 wait4(60084, [{WIFSTOPPED(s) && WSTOPSIG(s) == SIGTRAP | 0x80}], 0, NULL) = 60084
 ```
 
-In that, we can see that `strace` uses `ptrace` system calls do its job.
-Here's more of those:
+We can see that `strace` uses `ptrace` system calls do its job.
+Here's more of those `ptrace` calls:
 
 ```shell
 ∵ strace strace -o /dev/null true 2>&1 | grep ptrace | head -5
@@ -96,85 +94,87 @@ ptrace(PTRACE_GET_SYSCALL_INFO, 55679, 88, {op=PTRACE_SYSCALL_INFO_NONE, arch=AU
 ptrace(PTRACE_SYSCALL, 55679, NULL, 0)  = 0
 ```
 
-What's `ptrace`? On my system, `man 2 ptrace` gives a decent summary at the top:
+What's `ptrace`? To the [manual pages](https://man7.org/linux/man-pages/man2/ptrace.2.html)!
 
 > The **ptrace()** system call provides a means by which one process (the "tracer") may observe and control the execution of another process (the "tracee"), and examine and change the tracee's memory and registers. It is primarily used to implement breakpoint debugging and system call tracing.
 
 "system call tracing" is what we're looking for, for this exercise-
 but still, `ptrace` may not be the right tool for the job.
 
-The way `ptrace` works is:
+A `ptrace` flow looks like this:
 
-1.  Tracer "attaches" to tracee
+1.  The tracer calls `ptrace` to "attach" to the tracee.
 2.  Whenever the tracee makes a system call, or receives a signal, the kernel
-    stops the tracee and switches to the tracer.
-3.  Then the tracer can poke at the tracee's memory or registers. The tracer can
-    replace or modify the system call / signal on the tracee's behalf.
-4.  Once the tracer is done, the tracer tells the kernel how to
+    _stops_ the tracee and wakes the _tracer_.
+3.  The tracer can poke at the tracee's memory or registers. The tracer can
+    modify the system call / signal, both inbound (to the process) and outbound (to the kernel).
+4.  Once the tracer is ready, the tracer tells the kernel how to
     continue. This can cause the tracee to resume.
 
-This is **great for understanding**! Because the tracer can read the tracee's memory,
+This is **great for debugging**! Because the tracer can read the tracee's memory,
 the tracer can see all the system call arguments, like "this is the path that the `open`
 call tried to open". Julia Evans has a
 [nice roundup](https://jvns.ca/blog/2021/04/03/what-problems-do-people-solve-with-strace/)
-of problems that `strace` can solve!
+of problems that `strace` can solve-- most of which are debugging / reverse engineering.
 
-But this kind of tracing **changes the performance of the program**. We aren't
-seeing how long it takes for the tracee to complete; we're also seeing how long
-the tracer takes to say "go ahead".
+But I think this kind of tracing **changes the performance**.
+Even if the tracer just passes everything through, we're timing the tracee _and_ the tracer.
+That's not what we want: we want our timing to be minimally invasive.
 
-But we have a better option for _performance_: `perf`!
+Luckly, we have another option for that:
 
 ### `perf`
 
 I learned a lot about `perf` from [this zine](https://wizardzines.com/zines/perf/),
 and there's more info at [Brendan Gregg's site](https://www.brendangregg.com/perf.html).
 
-The Linux kernel has support for different kinds of performance
-monitoring. `perf` is a nicely scriptable interface to this support.
-One thing Linux and `perf` can do is trace system calls!
+The Linux kernel can do several kinds of performance monitoring / profiling / tracing.
+One of those mechanisms is to trace system calls: when enabled, each matching system call
+is logged into an in-memory buffer. The buffer is eventually handed off to a
+userspace process... like `perf`!
 
-When enabled, the kernel will log system calls into an in-memory buffer,
-then `perf` can read them out. Unlike `strace`, the "tracer" only sees the system
-calls _after the fact_- the kernel doesn't wait until the
-event is seen by the tracer to service it. This means **`perf trace` has very
-low performance cost** compared to `ptrace`- there's no waiting for another
-user program.
+This separation means that the `perf` tool isn't in the hot path of system calls;
+it's only observing them after-the-fact.[^amortization] In theory, this means
+the times reported by `perf` should be truer to the underlying program; though
+in practice, I haven't done this measurement.[^meta]
 
-(At least, in theory - I haven't _measured_ the performance difference.)
+[^amortization]: This might not be entirely true: I'm not sure what happens if
+    the system is generating events faster than `perf` can process the buffers.
+    In these tests, I'm only generating a couple of events in invocation, so
+    it's not an immediate problem.
+[^meta]: "Performance analysis of performance analysis techniques". If you do this, let me know!
 
-The drawback: `perf` doesn't capture caller-side details of the system
-calls. Look at what `strace` and `perf` show for a shell running `echo hi`:
+The drawback is that `perf` doesn't capture caller-side details of the system
+calls. Look at what `strace` and `perf` each show for a shell running `echo hi`:
 
 ```shell
 ∵ strace sh -c 'echo hi >/dev/null' 2>&1 | grep write
 write(1, "hi\n", 3)                     = 3
 ∵ sudo perf trace sh -c 'echo hi >/dev/null'  2>&1 | grep write
-     0.294 ( 0.001 ms): sh/56499 write(fd: 1, buf: 0x55808bc98780, count: 3)                           = 3
+     0.294 ( 0.001 ms): sh/56499 write(fd: 1, buf: 0x55808bc98780, count: 3)  = 3
 ```
 
-`strace` shows us the string, while `perf` just shows the pointer.
+`strace` shows us the string, while `perf` just shows the string's address.
 
-It seems like `perf` will be better at performance, but worse for debugging.
-That's OK! We're just looking at performance for now.
+That's fine for these tests, where we're just looking at performance!
 
 ## Experimental procedure
 
-Let's talk about our test subjects- "hello world" across languages. For this
-experiment, we're going to say "a hello world program" is:
+Let's talk about our test subjects-- "hello world" across languages. For this
+experiment, "a hello world program" is:
 
 - A file, that is
-- Executable by my (Debian) Linux install
-- That prints the string `Hello, world!\n` to its standard output
+- Executable by my (Debian) Linux install,
+- That prints the string `Hello, world!\n` to its standard output.
 
-This lines up with my [original question](../#original)-- we're going to
+This uniformity comes from my [original question](../#original)-- we're going to
 invoke every one as `./test`, regardless of language.
 
 To time the program, we'll run it under `perf record`. We can look at the
-time from [steps (1) from (4)](#intro) by filtering down to the right system
+time of [steps (3)](#intro) by filtering down to the right system
 calls, and write to a file for later analysis:
 
-```
+```shell
 perf record \
     --output="/tmp/perf.out" \
     --event="syscalls:sys_exit_execve,syscalls:sys_enter_write" \
@@ -184,40 +184,40 @@ perf record \
 ### Checking the page cache
 
 One thing I expect will have some impact on performance is the [page cache].
-A binary that is executed a lot will be more likely to be cached in-memory,
-and it'll be a little faster to load. This is a bit self-fulfilling:
-if a program takes to long to start up, it won't get cached -> it will take
-even longer to start up.
+A frequently-used binary will probably be cached in-memory, so it will be faster
+to start: it won't need to be pulled from storage.
 
 [page cache]: https://www.kernel.org/doc/html/v6.3/admin-guide/mm/concepts.html#page-cache
 
 I want to see how different languages interact with page cache; so,
 we'll do two sets of runs for each program.
 
-- One run will simulate a frequently / recently-used program: just run
-  the program repeatedly.
+- One run will "just" run the program repeatedly, simulating a frequently-used program.
 
-- Another run will simulate an infrequently / not-recently-used program:
-  clear the page cache between runs.
+- One run will clear the page cache between runs, simulating a rarely-used program.
 
-Then it's just some processing of the `perf` output to get the numbers.
+Then we'll do some processing of the `perf` output to get the numbers.
 
 ### Subjects
 
 I've written up 8 "hello" programs:
 
-1.  Shell script, specifying different shells:
+1.  A shell script, specifying different shells:
     1.  `#!/usr/bin/dash`, the [Debian Alquist Shell](https://wiki.archlinux.org/title/Dash), designed to be a minimal POSIX-compliant shell
     2.  `#!/usr/bin/bash`, the Bourne Again Shell, a common default shell
     3.  `#!/usr/bin/zsh`, the Z Shell, the shell I use
 2.  Python
-3.  C-like: compiled to machine code, backed by `libc`
+3.  Javascript (using Node.js's [single executable application](node-app) feature)
+4.  C-like: compiled to machine code
     1.  C
     2.  C++
     3.  Rust
-4.  Golang
+5.  Golang
 
-All programs are built an run in "as default a manner" as possible: no optimization flags, link flags or anything else.
+[node-app]: https://nodejs.org/api/single-executable-applications.html
+
+All programs are built an run in "as default a manner" as possible:
+no optimization flags, link flags or anything else.
 
 ## The results
 
@@ -225,15 +225,12 @@ These are my results, but **you can run this yourself!!**
 
 The code is in [repository](https://github.com/cceckman/startup-showdown),
 including the orchestrator. If you have the compilers/interpreters installed[^prereqs],
-you can download and run `./do` and get all the results yourself!
+you can download and run `./do` and see how the results for your machine.
 
-(At least, as of commit 8fef593...)
-
-Here's results ([raw data](1-hello-bench/server.csv)) from a server machine.
-This is a VM with 10 threads:
+On a server-class machine, in a VM with 10 threads:
 
 mode     | sut    | mean   | median | min    | max
----------|--------|--------|--------|--------|-----
+---------|--------|-------:|-------:|-------:| ---:
 base     | c      | 0.0005 | 0.0005 | 0.0005 | 0.0005
 base     | dash   | 0.0006 | 0.0006 | 0.0006 | 0.0007
 base     | rust   | 0.0008 | 0.0008 | 0.0007 | 0.0011
@@ -242,40 +239,22 @@ base     | bash   | 0.0015 | 0.0014 | 0.0013 | 0.0026
 base     | zsh    | 0.0018 | 0.0018 | 0.0018 | 0.0019
 base     | golang | 0.0029 | 0.0027 | 0.0019 | 0.0054
 base     | python | 0.0154 | 0.0151 | 0.0143 | 0.0182
-base     | node   | 0.0423 | 0.0358 | 0.0328 | 0.098
+base     | node   | 0.0423 | 0.0358 | 0.0328 | 0.0980
 no_cache | c      | 0.0005 | 0.0005 | 0.0005 | 0.0005
 no_cache | dash   | 0.0006 | 0.0006 | 0.0006 | 0.0006
 no_cache | rust   | 0.0011 | 0.0011 | 0.0011 | 0.0013
 no_cache | cpp    | 0.0015 | 0.0015 | 0.0014 | 0.0016
 no_cache | zsh    | 0.0024 | 0.0024 | 0.0023 | 0.0033
-no_cache | bash   | 0.0033 | 0.0033 | 0.003  | 0.0042
+no_cache | bash   | 0.0033 | 0.0033 | 0.0030 | 0.0042
 no_cache | golang | 0.0047 | 0.0043 | 0.0038 | 0.0056
 no_cache | python | 0.0186 | 0.0183 | 0.0178 | 0.0213
 no_cache | node   | 0.0856 | 0.0834 | 0.0809 | 0.1044
 
-And results ([raw data](1-hello-bench/laptop.csv)) from a laptop,
-running on battery, with 8 threads on 4 cores:
+And from my laptop, with 8 threads on 4 cores:
 
-| mode     | sut      | mean   | median | min    | max    |
-| -------- | -------- | ------ | ------ | ------ | ------ |
-| base     | 5-c      | 0.0002 | 0.0002 | 0.0002 | 0.0003 |
-| base     | 7-rust   | 0.0003 | 0.0003 | 0.0003 | 0.0004 |
-| base     | 1-dash   | 0.0003 | 0.0003 | 0.0002 | 0.0003 |
-| base     | 2-bash   | 0.0006 | 0.0006 | 0.0005 | 0.0008 |
-| base     | 6-cpp    | 0.0007 | 0.0006 | 0.0006 | 0.0008 |
-| base     | 8-golang | 0.0008 | 0.0009 | 0.0007 | 0.001  |
-| base     | 3-zsh    | 0.0008 | 0.0008 | 0.0007 | 0.001  |
-| base     | 4-python | 0.0088 | 0.0087 | 0.0083 | 0.0098 |
-| no_cache | 5-c      | 0.0002 | 0.0002 | 0.0002 | 0.0002 |
-| no_cache | 1-dash   | 0.0003 | 0.0003 | 0.0002 | 0.0003 |
-| no_cache | 7-rust   | 0.0006 | 0.0006 | 0.0005 | 0.0007 |
-| no_cache | 6-cpp    | 0.0006 | 0.0006 | 0.0006 | 0.0007 |
-| no_cache | 2-bash   | 0.0008 | 0.0008 | 0.0007 | 0.0008 |
-| no_cache | 8-golang | 0.0009 | 0.0009 | 0.0007 | 0.001  |
-| no_cache | 3-zsh    | 0.0014 | 0.0014 | 0.0012 | 0.0015 |
-| no_cache | 4-python | 0.0141 | 0.0141 | 0.0131 | 0.0152 |
+TODO
 
-[^prereqs]: The prerequisites are: `clang` and `clang++` for C and C++; `cargo` for Rust; `python3` for Python; `zsh`, `bash`, and `dash` for the shells.
+[^prereqs]: The prerequisites are: `clang` and `clang++` for C and C++; `cargo` for Rust; `python3` for Python; `zsh`, `bash`, and `dash` for the shells; `node` and `npx` for Javascript (>v19; I used v20).
 
 ### What's wrong with this picture?
 
@@ -299,13 +278,16 @@ $ head -1 ./do
 #!/usr/bin/env sh
 ```
 
+Which is `dash` on my system.
+
 I'm pretty sure the `dash` program itself will still be in memory when we
-get to that test; it's re-invoked between when we dump the page cache and when
-we run the test program. This means our _test fixture_ pays the "load the interpreter" penalty, but the _system under test_ doesn't.
+get to that test; we dump the page cache, then hop back to shell execution
+to run run the test program. This means our _test fixture_ pays the
+"load the interpreter" penalty, but the _system under test_ doesn't.
 
 (Still - almost as fast as C? Nice job, `dash` authors!)
 
-#### `no_cache` doesn't mean _much_ for `libc` programs {#libc}
+#### `no_cache` matters less for `libc` programs {#libc}
 
 Similarly, I think all of these (except Go) wind up using the same shared
 library - the system `libc`. I expect that's a decent fraction of the code
@@ -314,13 +296,13 @@ instead of the test.
 
 ### Observations
 
-**C is fast.** Not surprising, but it's useful to validate. [For future
+**C is fast.** Not surprising, but it's good to see how fast. [For future
 investigation](..) - how much of that is because [`libc` is already in
 memory?](#libc)
 
 **`dash` is almost as fast as C.** Even given the [above](#dash) observation on
 residency, I'm still impressed that it can parse & complete the script before
-a compiled program.
+most compiled programs.
 
 **Go is takes longer than I expected.** I'll want to analyze Go startup more in
 a future post, but I was surprised by how long it took on the
@@ -328,8 +310,8 @@ server in particular. Related to core count, maybe?
 
 **All of these are very fast.** 60fps video is \\( 1000 / 60 = 16.66... \\)
 milliseconds per frame. Python is the only one of these that would have trouble
-_starting a new process every frame_ and keeping up... at least, as far as
-the startup goes.
+_starting a new process every frame_ and keeping up... if it's not really
+doing anything during execution.
 
 ## Let me know what you think!
 
@@ -339,5 +321,6 @@ If you have answers, more questions, or suggestions, [reach out](https://cceckma
 
 ## Acknowledgements
 
-Thanks to Meg, Claire, and Nic for reviewing this.
+Thanks to Meg, Claire, Nic, and Aditya for reviewing this.
 
+Much of the work for this series was done at [the Recurse Center](https://www.recurse.com/scout/click?t=8238c6d9149cbd0865752e535795d509).

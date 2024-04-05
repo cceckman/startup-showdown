@@ -1,7 +1,8 @@
 ---
 title: "Startup Showdown"
 author: "Charles Eckman <charles@cceckman.com>"
-date: 2024-03-28
+date: 2024-04-08
+draft: true
 ---
 
 When is a program's execution dominated by its startup cost?
@@ -12,37 +13,50 @@ Why? How do we know?
 
 ## The little question {#original}
 
-I use a lot of command-line tools, interactively and transiently.
+I use a lot of command-line tools when I'm developing software.
 Some are the GNU tools, mostly written in C; some are in
 Python, Go, or Rust. (Those happen to be languages I'm familiar with, too!)
 
-Not too long ago, I was annoyed with one: it seemed to take a long time
-to produce any output. I couldn't blame this on anything particular,
-but it got me wondering:
+Most of the time, I'm running these interactively-- waiting for them
+to show me something before I can make my next decision. Most of the time
+they're transient: not a daemon that runs in the background, but a process
+that exits quickly once it's done.
 
-All else being equal, how much does the choice of language impact the
+I get annoyed when my CLI programs are (perceptually) slow.
+Waiting for multiple seconds for some output gives me time to think...
+and to come up with questions like this one:
+
+> All else being equal, how much does the choice of language impact the
 startup cost of the program?
 
-_Of course_ startup time is not the only contributor to latency; and _of course_
-latency is not just a property of the language. Still, I write some tools for
-myself: I want to know how much time the startup _does_ take, to weigh it accordingly.
+_Of course_ there are a lot of other factors in the speed of the program:
+the work the program is doing, how the language maps to hardware, the size
+of the task it's invoked for. There's other factors in the startup
+too: file caching, system load, dependencies.  And in a lot of cases,
+the startup time will be lost in the noise: servers,
+clients, compute- or IO-heavy workloads.
 
-## Computer theory --> computer science
+But this question hooked my curiousity. I want to know:
 
-I realized that behind this question, there's some cool things to learn and
-practice.
+- How expensive is "just" startup, independent of the execution speed?
+- How do choices made by tool authors (beyond language) affect the startup time?
+- Where _is_ the "lost in the noise" boundary?
+
+## From computer theory to computer science
+
+I think investigating these questions offers some neat things to learn and practice.
 
 -   Optimization: Where does the time go? How do we measure it?
 -   Experimental design: What variables can be isolated?
 -   Languages and libraries: What's going on under the hood of the program?
 
 In the grand scheme, of course, I'm going to spend longer
-[answering the question](https://xkcd.com/1205/) than I'd ever save.
-But I'm expecting to learn from the process!
+[answering the question](https://xkcd.com/1205/) than I'll ever save by "optimizing" any tool.
+The point is learning, not the outcome.
 
 These posts are my mildly-polished notes about these experiments.
-**I'm going to be wrong about some things** - sorry! If you have any
-corrections - or any tips, clarifications, or other feedback - please do reach
+**I'm going to be wrong about some things** -- sorry! If you have any
+corrections -- or any tips, clarifications, or other feedback -- please do reach
 out via [email] or [Mastodon].
 
 ## Sections
@@ -51,6 +65,7 @@ out via [email] or [Mastodon].
 
     How long does a program in $language take to start writing to its standard output?
 
+<!--
 2.  **Linking and loading**: C and C-adjacent langauges are considered "fast";
     at least part of that comes from sharing `libc` across the system.
 
@@ -90,3 +105,4 @@ out via [email] or [Mastodon].
 
 Thanks to Meg, Claire, Nic, and Aditya for reviewing this.
 
+Much of the work for this series was done at [the Recurse Center](https://www.recurse.com/scout/click?t=8238c6d9149cbd0865752e535795d509).
