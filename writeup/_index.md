@@ -60,7 +60,7 @@ out via [email] or [Mastodon].
 
 ## Sections
 
-1.  [**Hello**](1-hello-bench):
+1.  [**Hello**](1-hello-bench/):
 
     How long does a program in $language take to start writing to its standard output?
 

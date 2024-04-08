@@ -362,6 +362,14 @@ Note that _among the shells_, the number of shared libraries matches our ranking
 
 [^ish]: In one case -- `no-cache` on the server - `zsh` outperformed `bash`. I haven't computed the statistical power of these tests; I'm not sure if "bash and zsh are close" and that's just nois, or if this is pointing to something deeper about which libraries are used, or something else.
 
+
+## WIP : GOT and PLT
+
+GOT: modified, for addresses; PLT: stubs 
+
+https://blog.stephenmarz.com/2020/06/22/dynamic-linking/
+
+
 ## The shared-library advantage
 
 TODO:
