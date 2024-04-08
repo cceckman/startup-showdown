@@ -2,7 +2,6 @@
 title: "Startup Showdown 1 - Hello"
 author: "Charles Eckman <charles@cceckman.com>"
 date: 2024-04-08
-draft: true
 ---
 
 To kick off the [startup showdown](..), let's write "hello world"

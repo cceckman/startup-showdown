@@ -2,7 +2,6 @@
 title: "Startup Showdown"
 author: "Charles Eckman <charles@cceckman.com>"
 date: 2024-04-08
-draft: true
 ---
 
 When is a program's execution dominated by its startup cost?
