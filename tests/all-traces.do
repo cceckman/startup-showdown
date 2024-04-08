@@ -22,7 +22,7 @@ OLD_PERFCTL="$(cat /proc/sys/kernel/perf_event_paranoid)"
 # if setting doesn't work:
 cleanup() {
   set -x
-  sudo sysctl -w kernel.perf_event_paranoid="$OLD_PERFCTL"
+  sudo sysctl -w kernel.perf_event_paranoid="$OLD_PERFCTL" >/dev/null
   sudo mount -o remount,mode=700 /sys/kernel/tracing/
   # Don't even bother letting it be executable after we've run.
   sudo chmod 00644 ./drop-caches
@@ -54,7 +54,7 @@ trap cleanup EXIT
   fi
 
   set -x
-  sudo sysctl -w kernel.perf_event_paranoid=-1
+  sudo sysctl -w kernel.perf_event_paranoid=-1 >/dev/null
   # The `perf` tool recommends:
   sudo mount -o remount,mode=755 /sys/kernel/tracing/
   # But per https://lore.kernel.org/all/2315137.Eos4xDj3du@milian-workstation/T/

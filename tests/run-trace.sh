@@ -49,7 +49,8 @@ OUT="${MODE}/${SUT}/${RUN}.trace"
 perf record \
   --output "$OUT" \
   --event  "$SYSCALL_EVENTS" \
-  "$SUT_PATH"
+  "$SUT_PATH" \
+  >/dev/null
 
 
 

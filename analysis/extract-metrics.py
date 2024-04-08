@@ -44,6 +44,8 @@ def get_latency(filepath: pathlib.Path) -> float:
     with open(filepath) as f:
         # Match the first line to the start timestamp
         m = START.match(f.readline())
+        if m is None:
+            raise Exception(f"found no starting match in {filepath}")
         start = float(m.group(1))
         for line in f.readlines():
             m = WRITE.match(line)

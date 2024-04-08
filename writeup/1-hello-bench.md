@@ -250,10 +250,6 @@ no_cache | golang | 0.0047 | 0.0043 | 0.0038 | 0.0056
 no_cache | python | 0.0186 | 0.0183 | 0.0178 | 0.0213
 no_cache | node   | 0.0856 | 0.0834 | 0.0809 | 0.1044
 
-And from my laptop, with 8 threads on 4 cores:
-
-TODO
-
 [^prereqs]: The prerequisites are: `clang` and `clang++` for C and C++; `cargo` for Rust; `python3` for Python; `zsh`, `bash`, and `dash` for the shells; `node` and `npx` for Javascript (>v19; I used v20).
 
 ### What's wrong with this picture?
