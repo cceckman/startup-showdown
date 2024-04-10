@@ -1,5 +1,4 @@
 **/test
-!1-*sh/test
-!2-*sh/test
-!3-*sh/test
+!*sh/test
 !*-python/test
+
